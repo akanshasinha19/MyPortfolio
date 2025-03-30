@@ -1,5 +1,5 @@
 export const caseStudyContent = {
-    "ecommerce-integration-case1": `# E-commerce Marketplace Integration  
+    "ecommerce-integration": `# E-commerce Marketplace Integration  
 **Santo Remedio | Product Manager**  
 **Aug 2022 – Aug 2024**
 

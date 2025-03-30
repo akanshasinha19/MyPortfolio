@@ -1,3 +1,5 @@
+"use client"
+
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -8,7 +10,10 @@ import {
   Mail,
   MapPin,
   User,
+  X,
 } from "lucide-react";
+import { useState } from "react";
+import ReactMarkdown from "react-markdown";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -21,6 +26,18 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+
+import {caseStudyContent} from "@/app/caseStudy"; // Importing case study content
+
+// Sample case study content (in real app, this would likely be fetched from a CMS or API)
+
 
 const projects = [
   {
@@ -29,7 +46,8 @@ const projects = [
       "Led the Shopify & Amazon integration at Santo Remedio, resulting in $2.6M revenue growth and a 35% increase in the customer base.",
     image: "/santo_remedio.png?height=400&width=600",
     category: "E-commerce",
-    link: "/projects/ecommerce-integration",
+    link: "ecommerce-integration",
+    type: "CaseStudy",
   },
   {
     title: "Recommendation Engine for Product Boost",
@@ -37,7 +55,8 @@ const projects = [
       "Developed a recommendation engine using Association Rules, processing 500K+ daily user interactions and increasing AOV from $63 to $64.29.",
     image: "/medicine.webp?height=400&width=600",
     category: "E-commerce",
-    link: "/projects/recommendation-engine",
+    link: "recommendation-engine",
+    type: "CaseStudy",
   },
   {
     title: "Real-time Analytics Dashboard",
@@ -45,7 +64,8 @@ const projects = [
       "Built ETL pipelines and a BigQuery + Tableau dashboard to process 5GB of daily data, reducing decision-making time from 10 hours to 30 minutes.",
     image: "/data_analytics.jpeg?height=400&width=600",
     category: "Data Analytics",
-    link: "/projects/real-time-dashboard",
+    link: "real-time-dashboard",
+    type: "CaseStudy",
   },
   {
     title: "Blue Bike Usage Dashboard",
@@ -61,7 +81,8 @@ const projects = [
       "Designed a neural network to predict personal loan approvals with 97.2% test accuracy, visualized via confusion matrices and model diagrams.",
     image: "/neural_net.avif?height=400&width=600",
     category: "Machine Learning",
-    link: "/projects/loan-prediction",
+    link: "loan-prediction",
+    type: "CaseStudy",
   },
   {
     title: "Clustering Salary & Benefits Data",
@@ -69,7 +90,8 @@ const projects = [
       "Used k-means and hierarchical clustering for public employee salary analysis; results visualized with Elbow charts, scatterplots, and dendrograms.",
     image: "/clustering.png?height=400&width=600",
     category: "Machine Learning",
-    link: "/projects/salary-clustering",
+    link: "salary-clustering",
+    type: "CaseStudy",
   },
   {
     title: "Olist E-commerce Insights Dashboard",
@@ -178,6 +200,18 @@ const experience = [
 ];
 
 export default function Portfolio() {
+  const [openCaseStudy, setOpenCaseStudy] = useState(null);
+
+  // Function to handle opening a case study
+  const handleOpenCaseStudy = (projectId) => {
+    setOpenCaseStudy(projectId);
+  };
+
+  // Function to handle closing a case study
+  const handleCloseCaseStudy = () => {
+    setOpenCaseStudy(null);
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -372,7 +406,11 @@ export default function Portfolio() {
             <TabsContent value="all" className="space-y-6">
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {projects.map((project, index) => (
-                  <ProjectCard key={index} project={project} />
+                  <ProjectCard 
+                    key={index} 
+                    project={project} 
+                    onOpenCaseStudy={handleOpenCaseStudy}
+                  />
                 ))}
               </div>
             </TabsContent>
@@ -381,7 +419,11 @@ export default function Portfolio() {
                 {projects
                   .filter((p) => p.category === "E-commerce")
                   .map((project, index) => (
-                    <ProjectCard key={index} project={project} />
+                    <ProjectCard 
+                      key={index} 
+                      project={project} 
+                      onOpenCaseStudy={handleOpenCaseStudy}
+                    />
                   ))}
               </div>
             </TabsContent>
@@ -394,7 +436,11 @@ export default function Portfolio() {
                       p.category === "Data Visualization",
                   )
                   .map((project, index) => (
-                    <ProjectCard key={index} project={project} />
+                    <ProjectCard 
+                      key={index} 
+                      project={project} 
+                      onOpenCaseStudy={handleOpenCaseStudy}
+                    />
                   ))}
               </div>
             </TabsContent>
@@ -403,7 +449,11 @@ export default function Portfolio() {
                 {projects
                   .filter((p) => p.category === "Marketing Analytics")
                   .map((project, index) => (
-                    <ProjectCard key={index} project={project} />
+                    <ProjectCard 
+                      key={index} 
+                      project={project} 
+                      onOpenCaseStudy={handleOpenCaseStudy}
+                    />
                   ))}
               </div>
             </TabsContent>
@@ -417,7 +467,11 @@ export default function Portfolio() {
                       p.category === "Natural Language Processing",
                   )
                   .map((project, index) => (
-                    <ProjectCard key={index} project={project} />
+                    <ProjectCard 
+                      key={index} 
+                      project={project} 
+                      onOpenCaseStudy={handleOpenCaseStudy}
+                    />
                   ))}
               </div>
             </TabsContent>
@@ -513,6 +567,38 @@ export default function Portfolio() {
         </section>
       </main>
 
+      {/* Case Study Modal */}
+      <Dialog open={!!openCaseStudy} onOpenChange={() => openCaseStudy && handleCloseCaseStudy()}>
+        <DialogContent className="max-w-full max-h-full w-full h-[100vh] p-0 m-0 overflow-hidden border-none">
+          {openCaseStudy && (
+            <>
+              <div className="sticky top-0 z-10 flex items-center justify-between p-4 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
+                <DialogTitle className="text-xl font-bold">
+                  {projects.find(p => p.link === openCaseStudy || p.link.endsWith(openCaseStudy))?.title || 'Case Study'}
+                </DialogTitle>
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  onClick={handleCloseCaseStudy}
+                  className="rounded-full"
+                >
+                  <X className="h-4 w-4" />
+                  <span className="sr-only">Close</span>
+                </Button>
+              </div>
+              
+              <div className="h-[calc(100vh-64px)] overflow-y-auto px-4 md:px-8 lg:px-0">
+                <div className="prose prose-sm md:prose-lg dark:prose-invert mx-auto py-8 max-w-2xl lg:max-w-3xl">
+                  <ReactMarkdown>
+                    {caseStudyContent[openCaseStudy]}
+                  </ReactMarkdown>
+                </div>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
+      
       {/* Footer */}
       <footer className="border-t py-6">
         <div className="container max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
@@ -553,7 +639,24 @@ export default function Portfolio() {
 }
 
 // Project Card Component
-function ProjectCard({ project }) {
+function ProjectCard({project, onOpenCaseStudy }) {
+  const handleClick = () => {
+    if (project.type === "CaseStudy") {
+      // Extract project ID from the link
+      
+      const projectId = project.link.split('/').pop();
+      console.log("Project ID:", projectId);
+      if(!caseStudyContent.hasOwnProperty(projectId)) {
+        return;
+      }
+
+      onOpenCaseStudy(projectId);
+    } else {
+      // For non-case study projects, do nothing here as the Link component will handle navigation
+      return;
+    }
+  };
+
   return (
     <Card className="relative overflow-hidden flex flex-col">
       {/* Category Badge in Top-Right */}
@@ -582,12 +685,19 @@ function ProjectCard({ project }) {
       </CardContent>
 
       <CardFooter className="mt-auto">
-        <Button asChild variant="outline" className="w-full">
-          <Link href={project.link} target="_blank">
+        {project.type === "CaseStudy" ? (
+          <Button onClick={handleClick} variant="outline" className="w-full">
             View Case Study
             <ArrowRight className="ml-2 h-4 w-4" />
-          </Link>
-        </Button>
+          </Button>
+        ) : (
+          <Button asChild variant="outline" className="w-full">
+            <Link href={project.link} target="_blank">
+              View Project
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
+          </Button>
+        )}
       </CardFooter>
     </Card>
   );

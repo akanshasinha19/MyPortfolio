@@ -7,6 +7,98 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 
+
+const projects = [
+  {
+    title: "FinTech Dashboard Redesign",
+    description:
+      "Led the complete redesign of a financial analytics dashboard, increasing user engagement by 45% and reducing customer support tickets by 30%.",
+    image: "/placeholder.svg?height=400&width=600",
+    category: "SaaS",
+    link: "/projects/fintech-dashboard",
+  },
+  {
+    title: "Health & Wellness Mobile App",
+    description:
+      "Managed the development of a health tracking mobile application from concept to launch, achieving 100,000+ downloads in the first quarter.",
+    image: "/placeholder.svg?height=400&width=600",
+    category: "Mobile",
+    link: "/projects/health-app",
+  },
+  {
+    title: "Enterprise Resource Planning System",
+    description:
+      "Oversaw the implementation of a custom ERP solution for a Fortune 500 company, resulting in 25% operational efficiency improvement.",
+    image: "/placeholder.svg?height=400&width=600",
+    category: "Enterprise",
+    link: "/projects/erp-system",
+  },
+  {
+    title: "E-commerce Platform Optimization",
+    description:
+      "Spearheaded the optimization of an e-commerce platform, implementing A/B testing that increased conversion rates by 18%.",
+    image: "/placeholder.svg?height=400&width=600",
+    category: "SaaS",
+    link: "/projects/ecommerce-optimization",
+  },
+  {
+    title: "Logistics Mobile Solution",
+    description:
+      "Developed a mobile solution for logistics management, reducing delivery times by 22% and improving customer satisfaction scores.",
+    image: "/placeholder.svg?height=400&width=600",
+    category: "Mobile",
+    link: "/projects/logistics-app",
+  },
+  {
+    title: "Data Analytics Platform",
+    description:
+      "Led the product strategy for an enterprise data analytics platform serving over 200 corporate clients across various industries.",
+    image: "/placeholder.svg?height=400&width=600",
+    category: "Enterprise",
+    link: "/projects/data-analytics",
+  },
+]
+
+const experience = [
+  {
+    title: "Senior Product Manager",
+    company: "TechCorp Inc.",
+    period: "2021 - Present",
+    location: "San Francisco, CA",
+    achievements: [
+      "Led a cross-functional team of 15 to deliver a new SaaS platform that generated $2M in revenue in its first year",
+      "Implemented agile methodologies that reduced development cycle time by 30%",
+      "Developed and executed product roadmap aligned with company's strategic goals",
+      "Conducted user research and competitive analysis to identify market opportunities",
+    ],
+  },
+  {
+    title: "Product Manager",
+    company: "InnovateSoft",
+    period: "2018 - 2021",
+    location: "New York, NY",
+    achievements: [
+      "Managed the development and launch of 3 successful mobile applications with combined 500K+ downloads",
+      "Increased user retention by 40% through data-driven product improvements",
+      "Collaborated with engineering, design, and marketing teams to ensure product-market fit",
+      "Created detailed product specifications and user stories for development team",
+    ],
+  },
+  {
+    title: "Associate Product Manager",
+    company: "GlobalTech Solutions",
+    period: "2016 - 2018",
+    location: "Boston, MA",
+    achievements: [
+      "Assisted in the development of product strategy for enterprise software solutions",
+      "Conducted market research and user interviews to inform product decisions",
+      "Managed backlog prioritization and sprint planning with development team",
+      "Created and maintained product documentation and user guides",
+    ],
+  },
+];
+
+
 export default function Portfolio() {
   return (
     <div className="min-h-screen bg-background">
@@ -103,7 +195,7 @@ export default function Portfolio() {
             <div className="flex items-center justify-center">
               <div className="relative h-[250px] w-[250px] sm:h-[300px] sm:w-[300px] overflow-hidden rounded-full border-4 border-background bg-muted md:h-[400px] md:w-[400px]">
                 <Image
-                  src="/placeholder.svg?height=400&width=400"
+                  src="/jhibli.jpg?height=400&width=400"
                   alt="Alex Morgan"
                   fill
                   className="object-cover"
@@ -355,92 +447,3 @@ function ProjectCard({ project }) {
 }
 
 // Sample Data
-const projects = [
-  {
-    title: "FinTech Dashboard Redesign",
-    description:
-      "Led the complete redesign of a financial analytics dashboard, increasing user engagement by 45% and reducing customer support tickets by 30%.",
-    image: "/placeholder.svg?height=400&width=600",
-    category: "SaaS",
-    link: "/projects/fintech-dashboard",
-  },
-  {
-    title: "Health & Wellness Mobile App",
-    description:
-      "Managed the development of a health tracking mobile application from concept to launch, achieving 100,000+ downloads in the first quarter.",
-    image: "/placeholder.svg?height=400&width=600",
-    category: "Mobile",
-    link: "/projects/health-app",
-  },
-  {
-    title: "Enterprise Resource Planning System",
-    description:
-      "Oversaw the implementation of a custom ERP solution for a Fortune 500 company, resulting in 25% operational efficiency improvement.",
-    image: "/placeholder.svg?height=400&width=600",
-    category: "Enterprise",
-    link: "/projects/erp-system",
-  },
-  {
-    title: "E-commerce Platform Optimization",
-    description:
-      "Spearheaded the optimization of an e-commerce platform, implementing A/B testing that increased conversion rates by 18%.",
-    image: "/placeholder.svg?height=400&width=600",
-    category: "SaaS",
-    link: "/projects/ecommerce-optimization",
-  },
-  {
-    title: "Logistics Mobile Solution",
-    description:
-      "Developed a mobile solution for logistics management, reducing delivery times by 22% and improving customer satisfaction scores.",
-    image: "/placeholder.svg?height=400&width=600",
-    category: "Mobile",
-    link: "/projects/logistics-app",
-  },
-  {
-    title: "Data Analytics Platform",
-    description:
-      "Led the product strategy for an enterprise data analytics platform serving over 200 corporate clients across various industries.",
-    image: "/placeholder.svg?height=400&width=600",
-    category: "Enterprise",
-    link: "/projects/data-analytics",
-  },
-]
-
-const experience = [
-  {
-    title: "Senior Product Manager",
-    company: "TechCorp Inc.",
-    period: "2021 - Present",
-    location: "San Francisco, CA",
-    achievements: [
-      "Led a cross-functional team of 15 to deliver a new SaaS platform that generated $2M in revenue in its first year",
-      "Implemented agile methodologies that reduced development cycle time by 30%",
-      "Developed and executed product roadmap aligned with company's strategic goals",
-      "Conducted user research and competitive analysis to identify market opportunities",
-    ],
-  },
-  {
-    title: "Product Manager",
-    company: "InnovateSoft",
-    period: "2018 - 2021",
-    location: "New York, NY",
-    achievements: [
-      "Managed the development and launch of 3 successful mobile applications with combined 500K+ downloads",
-      "Increased user retention by 40% through data-driven product improvements",
-      "Collaborated with engineering, design, and marketing teams to ensure product-market fit",
-      "Created detailed product specifications and user stories for development team",
-    ],
-  },
-  {
-    title: "Associate Product Manager",
-    company: "GlobalTech Solutions",
-    period: "2016 - 2018",
-    location: "Boston, MA",
-    achievements: [
-      "Assisted in the development of product strategy for enterprise software solutions",
-      "Conducted market research and user interviews to inform product decisions",
-      "Managed backlog prioritization and sprint planning with development team",
-      "Created and maintained product documentation and user guides",
-    ],
-  },
-]

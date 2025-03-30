@@ -12,12 +12,12 @@ export default function Portfolio() {
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="sticky top-0 z-10 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-14 items-center">
-          <div className="mr-4 hidden md:flex">
+        <div className="container flex h-14 max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 items-center justify-between">
+          <div className="flex items-center">
             <Link href="/" className="mr-6 flex items-center space-x-2">
               <span className="font-bold">Alex Morgan</span>
             </Link>
-            <nav className="flex items-center space-x-6 text-sm font-medium">
+            <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
               <Link href="#about" className="transition-colors hover:text-foreground/80">
                 About
               </Link>
@@ -32,29 +32,25 @@ export default function Portfolio() {
               </Link>
             </nav>
           </div>
-          <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
-            <div className="w-full flex-1 md:w-auto md:flex-none">
-              <Button asChild variant="outline" className="ml-auto hidden md:flex">
-                <Link href="#contact">
-                  <Mail className="mr-2 h-4 w-4" />
-                  Contact Me
-                </Link>
-              </Button>
-            </div>
-            <nav className="flex items-center md:hidden">
-              <Button variant="ghost" size="icon" className="mr-2">
-                <User className="h-5 w-5" />
-                <span className="sr-only">Toggle Menu</span>
-              </Button>
-            </nav>
+          <div className="flex items-center space-x-2">
+            <Button asChild variant="outline" className="hidden md:flex">
+              <Link href="#contact">
+                <Mail className="mr-2 h-4 w-4" />
+                Contact Me
+              </Link>
+            </Button>
+            <Button variant="ghost" size="icon" className="md:hidden">
+              <User className="h-5 w-5" />
+              <span className="sr-only">Toggle Menu</span>
+            </Button>
           </div>
         </div>
       </header>
 
-      <main className="container py-10">
+      <main className="container max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-10">
         {/* Hero Section */}
-        <section id="about" className="py-10 md:py-16">
-          <div className="grid gap-8 md:grid-cols-2 md:gap-12">
+        <section id="about" className="py-8 md:py-16">
+          <div className="grid gap-8 md:grid-cols-2 md:gap-12 items-center">
             <div className="flex flex-col justify-center space-y-4">
               <div>
                 <Badge className="mb-2">Available for Work</Badge>
@@ -65,7 +61,7 @@ export default function Portfolio() {
                 I'm a product manager with 7+ years of experience building digital products that users love. I
                 specialize in user-centered design, agile methodologies, and data-driven decision making.
               </p>
-              <div className="flex flex-col gap-2 min-[400px]:flex-row">
+              <div className="flex flex-col gap-2 sm:flex-row">
                 <Button asChild>
                   <Link href="#projects">
                     View My Work
@@ -105,7 +101,7 @@ export default function Portfolio() {
               </div>
             </div>
             <div className="flex items-center justify-center">
-              <div className="relative h-[300px] w-[300px] overflow-hidden rounded-full border-4 border-background bg-muted md:h-[400px] md:w-[400px]">
+              <div className="relative h-[250px] w-[250px] sm:h-[300px] sm:w-[300px] overflow-hidden rounded-full border-4 border-background bg-muted md:h-[400px] md:w-[400px]">
                 <Image
                   src="/placeholder.svg?height=400&width=400"
                   alt="Alex Morgan"
@@ -119,9 +115,9 @@ export default function Portfolio() {
         </section>
 
         {/* Skills Section */}
-        <section className="py-10">
-          <h2 className="mb-8 text-2xl font-bold tracking-tight">My Skills & Expertise</h2>
-          <div className="grid gap-4 md:grid-cols-3">
+        <section className="py-8 md:py-12">
+          <h2 className="mb-6 md:mb-8 text-2xl font-bold tracking-tight">My Skills & Expertise</h2>
+          <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
             <Card>
               <CardHeader>
                 <CardTitle>Product Strategy</CardTitle>
@@ -150,7 +146,7 @@ export default function Portfolio() {
                 </ul>
               </CardContent>
             </Card>
-            <Card>
+            <Card className="sm:col-span-2 md:col-span-1">
               <CardHeader>
                 <CardTitle>Leadership</CardTitle>
               </CardHeader>
@@ -168,24 +164,24 @@ export default function Portfolio() {
         </section>
 
         {/* Projects Section */}
-        <section id="projects" className="py-10">
-          <h2 className="mb-8 text-2xl font-bold tracking-tight">Featured Projects</h2>
+        <section id="projects" className="py-8 md:py-12">
+          <h2 className="mb-6 md:mb-8 text-2xl font-bold tracking-tight">Featured Projects</h2>
           <Tabs defaultValue="all" className="w-full">
-            <TabsList className="mb-6">
+            <TabsList className="mb-6 w-full overflow-x-auto">
               <TabsTrigger value="all">All Projects</TabsTrigger>
               <TabsTrigger value="saas">SaaS</TabsTrigger>
               <TabsTrigger value="mobile">Mobile</TabsTrigger>
               <TabsTrigger value="enterprise">Enterprise</TabsTrigger>
             </TabsList>
             <TabsContent value="all" className="space-y-6">
-              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {projects.map((project, index) => (
                   <ProjectCard key={index} project={project} />
                 ))}
               </div>
             </TabsContent>
             <TabsContent value="saas" className="space-y-6">
-              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {projects
                   .filter((p) => p.category === "SaaS")
                   .map((project, index) => (
@@ -194,7 +190,7 @@ export default function Portfolio() {
               </div>
             </TabsContent>
             <TabsContent value="mobile" className="space-y-6">
-              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {projects
                   .filter((p) => p.category === "Mobile")
                   .map((project, index) => (
@@ -203,7 +199,7 @@ export default function Portfolio() {
               </div>
             </TabsContent>
             <TabsContent value="enterprise" className="space-y-6">
-              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {projects
                   .filter((p) => p.category === "Enterprise")
                   .map((project, index) => (
@@ -215,23 +211,23 @@ export default function Portfolio() {
         </section>
 
         {/* Experience Section */}
-        <section id="experience" className="py-10">
-          <h2 className="mb-8 text-2xl font-bold tracking-tight">Work Experience</h2>
-          <div className="space-y-8">
+        <section id="experience" className="py-8 md:py-12">
+          <h2 className="mb-6 md:mb-8 text-2xl font-bold tracking-tight">Work Experience</h2>
+          <div className="space-y-6">
             {experience.map((job, index) => (
               <Card key={index}>
                 <CardHeader>
-                  <div className="flex items-start justify-between">
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
                     <div>
                       <CardTitle>{job.title}</CardTitle>
                       <CardDescription className="text-base">{job.company}</CardDescription>
                     </div>
-                    <Badge variant="outline">{job.period}</Badge>
+                    <Badge variant="outline" className="w-fit">{job.period}</Badge>
                   </div>
                 </CardHeader>
                 <CardContent>
                   <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
-                    <MapPin className="h-4 w-4" />
+                    <MapPin className="h-4 w-4 flex-shrink-0" />
                     <span>{job.location}</span>
                   </div>
                   <ul className="list-disc pl-5 space-y-2">
@@ -246,8 +242,8 @@ export default function Portfolio() {
         </section>
 
         {/* Contact Section */}
-        <section id="contact" className="py-10">
-          <h2 className="mb-8 text-2xl font-bold tracking-tight">Get In Touch</h2>
+        <section id="contact" className="py-8 md:py-12">
+          <h2 className="mb-6 md:mb-8 text-2xl font-bold tracking-tight">Get In Touch</h2>
           <Card>
             <CardHeader>
               <CardTitle>Contact Information</CardTitle>
@@ -255,24 +251,24 @@ export default function Portfolio() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center gap-3">
-                <Mail className="h-5 w-5 text-muted-foreground" />
-                <a href="mailto:alex@example.com" className="hover:underline">
+                <Mail className="h-5 w-5 text-muted-foreground flex-shrink-0" />
+                <a href="mailto:alex@example.com" className="hover:underline break-all">
                   alex@example.com
                 </a>
               </div>
               <div className="flex items-center gap-3">
-                <Linkedin className="h-5 w-5 text-muted-foreground" />
+                <Linkedin className="h-5 w-5 text-muted-foreground flex-shrink-0" />
                 <a
                   href="https://linkedin.com/in/alexmorgan"
                   target="_blank"
                   rel="noreferrer"
-                  className="hover:underline"
+                  className="hover:underline break-all"
                 >
                   linkedin.com/in/alexmorgan
                 </a>
               </div>
               <div className="flex items-center gap-3">
-                <MapPin className="h-5 w-5 text-muted-foreground" />
+                <MapPin className="h-5 w-5 text-muted-foreground flex-shrink-0" />
                 <span>San Francisco, CA (Open to Remote)</span>
               </div>
             </CardContent>
@@ -289,8 +285,8 @@ export default function Portfolio() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t py-6 md:py-0">
-        <div className="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
+      <footer className="border-t py-6">
+        <div className="container max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
           <p className="text-center text-sm leading-loose text-muted-foreground md:text-left">
             © 2025 Alex Morgan. All rights reserved.
           </p>
@@ -327,7 +323,7 @@ export default function Portfolio() {
 // Project Card Component
 function ProjectCard({ project }) {
   return (
-    <Card className="overflow-hidden">
+    <Card className="overflow-hidden flex flex-col">
       <div className="aspect-video w-full overflow-hidden">
         <Image
           src={project.image || "/placeholder.svg"}
@@ -338,15 +334,15 @@ function ProjectCard({ project }) {
         />
       </div>
       <CardHeader>
-        <div className="flex items-center justify-between">
+        <div className="flex items-start justify-between gap-2">
           <CardTitle className="line-clamp-1">{project.title}</CardTitle>
-          <Badge>{project.category}</Badge>
+          <Badge className="whitespace-nowrap">{project.category}</Badge>
         </div>
       </CardHeader>
       <CardContent>
         <p className="line-clamp-3 text-sm text-muted-foreground">{project.description}</p>
       </CardContent>
-      <CardFooter>
+      <CardFooter className="mt-auto">
         <Button asChild variant="outline" className="w-full">
           <Link href={project.link}>
             View Case Study

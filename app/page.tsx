@@ -1,103 +1,181 @@
-import Image from "next/image"
-import Link from "next/link"
-import { ArrowRight, FileText, Github, Linkedin, Mail, MapPin, User } from "lucide-react"
+import Image from "next/image";
+import Link from "next/link";
+import {
+  ArrowRight,
+  FileText,
+  Github,
+  Linkedin,
+  Mail,
+  MapPin,
+  User,
+} from "lucide-react";
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Badge } from "@/components/ui/badge"
-
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Badge } from "@/components/ui/badge";
 
 const projects = [
   {
-    title: "FinTech Dashboard Redesign",
+    title: "E-commerce Marketplace Integration",
     description:
-      "Led the complete redesign of a financial analytics dashboard, increasing user engagement by 45% and reducing customer support tickets by 30%.",
-    image: "/placeholder.svg?height=400&width=600",
-    category: "SaaS",
-    link: "/projects/fintech-dashboard",
+      "Led the Shopify & Amazon integration at Santo Remedio, resulting in $2.6M revenue growth and a 35% increase in the customer base.",
+    image: "/santo_remedio.png?height=400&width=600",
+    category: "E-commerce",
+    link: "/projects/ecommerce-integration",
   },
   {
-    title: "Health & Wellness Mobile App",
+    title: "Recommendation Engine for Product Boost",
     description:
-      "Managed the development of a health tracking mobile application from concept to launch, achieving 100,000+ downloads in the first quarter.",
-    image: "/placeholder.svg?height=400&width=600",
-    category: "Mobile",
-    link: "/projects/health-app",
+      "Developed a recommendation engine using Association Rules, processing 500K+ daily user interactions and increasing AOV from $63 to $64.29.",
+    image: "/medicine.webp?height=400&width=600",
+    category: "E-commerce",
+    link: "/projects/recommendation-engine",
   },
   {
-    title: "Enterprise Resource Planning System",
+    title: "Real-time Analytics Dashboard",
     description:
-      "Oversaw the implementation of a custom ERP solution for a Fortune 500 company, resulting in 25% operational efficiency improvement.",
-    image: "/placeholder.svg?height=400&width=600",
-    category: "Enterprise",
-    link: "/projects/erp-system",
+      "Built ETL pipelines and a BigQuery + Tableau dashboard to process 5GB of daily data, reducing decision-making time from 10 hours to 30 minutes.",
+    image: "/data_analytics.jpeg?height=400&width=600",
+    category: "Data Analytics",
+    link: "/projects/real-time-dashboard",
   },
   {
-    title: "E-commerce Platform Optimization",
+    title: "Blue Bike Usage Dashboard",
     description:
-      "Spearheaded the optimization of an e-commerce platform, implementing A/B testing that increased conversion rates by 18%.",
-    image: "/placeholder.svg?height=400&width=600",
-    category: "SaaS",
-    link: "/projects/ecommerce-optimization",
+      "Created an interactive Tableau dashboard analyzing real-time usage trends for Blue Bikes, improving operational efficiency by 29%.",
+    image: "/bluebikes.png?height=400&width=600",
+    category: "Data Analytics",
+    link: "/bluebikes.pdf",
   },
   {
-    title: "Logistics Mobile Solution",
+    title: "Neural Network for Loan Prediction",
     description:
-      "Developed a mobile solution for logistics management, reducing delivery times by 22% and improving customer satisfaction scores.",
-    image: "/placeholder.svg?height=400&width=600",
-    category: "Mobile",
-    link: "/projects/logistics-app",
+      "Designed a neural network to predict personal loan approvals with 97.2% test accuracy, visualized via confusion matrices and model diagrams.",
+    image: "/neural_net.avif?height=400&width=600",
+    category: "Machine Learning",
+    link: "/projects/loan-prediction",
   },
   {
-    title: "Data Analytics Platform",
+    title: "Clustering Salary & Benefits Data",
     description:
-      "Led the product strategy for an enterprise data analytics platform serving over 200 corporate clients across various industries.",
-    image: "/placeholder.svg?height=400&width=600",
-    category: "Enterprise",
-    link: "/projects/data-analytics",
-  },
-]
-
-const experience = [
-  {
-    title: "Senior Product Manager",
-    company: "TechCorp Inc.",
-    period: "2021 - Present",
-    location: "San Francisco, CA",
-    achievements: [
-      "Led a cross-functional team of 15 to deliver a new SaaS platform that generated $2M in revenue in its first year",
-      "Implemented agile methodologies that reduced development cycle time by 30%",
-      "Developed and executed product roadmap aligned with company's strategic goals",
-      "Conducted user research and competitive analysis to identify market opportunities",
-    ],
+      "Used k-means and hierarchical clustering for public employee salary analysis; results visualized with Elbow charts, scatterplots, and dendrograms.",
+    image: "/clustering.png?height=400&width=600",
+    category: "Machine Learning",
+    link: "/projects/salary-clustering",
   },
   {
-    title: "Product Manager",
-    company: "InnovateSoft",
-    period: "2018 - 2021",
-    location: "New York, NY",
-    achievements: [
-      "Managed the development and launch of 3 successful mobile applications with combined 500K+ downloads",
-      "Increased user retention by 40% through data-driven product improvements",
-      "Collaborated with engineering, design, and marketing teams to ensure product-market fit",
-      "Created detailed product specifications and user stories for development team",
-    ],
+    title: "Olist E-commerce Insights Dashboard",
+    description:
+      "Built a Tableau dashboard analyzing order volume, payment preferences, and customer satisfaction across Brazil. Revealed regional disparities in delivery delays and helped optimize logistics strategies.",
+    image: "/olist.jpeg?height=400&width=600",
+    category: "Data Visualization",
+    link: "/olist.pdf",
   },
   {
-    title: "Associate Product Manager",
-    company: "GlobalTech Solutions",
-    period: "2016 - 2018",
-    location: "Boston, MA",
-    achievements: [
-      "Assisted in the development of product strategy for enterprise software solutions",
-      "Conducted market research and user interviews to inform product decisions",
-      "Managed backlog prioritization and sprint planning with development team",
-      "Created and maintained product documentation and user guides",
-    ],
+    title: "Champion Customer Segmentation",
+    description:
+      "Performed RFM analysis using SAS on 20K+ customers for Champion's DTC channel. Identified 5 segments and proposed targeted retention and marketing strategies based on CLV and engagement.",
+    image: "/champion.png?height=400&width=600",
+    category: "Marketing Analytics",
+    link: "/behave.pdf",
+  },
+  {
+    title: "GoDaddy Predictive Modeling",
+    description:
+      "Built a CART model to predict GoDaddy's product likeness using advanced tuning and pruning. Achieved a MAPE of 10.67%, driving actionable insights for pricing and marketing decisions.",
+    image: "/godaddy.png?height=400&width=600",
+    category: "Machine Learning",
+    link: "/godaddy.pdf",
+  },
+  {
+    title: "NYT Topic Modeling with NLP",
+    description:
+      "Applied LDA topic modeling and text preprocessing on New York Times comments to identify themes and sentiment trends across reader discussions using Python and NLP techniques.",
+    image: "/NLP.jpeg?height=400&width=600",
+    category: "Natural Language Processing",
+    link: "/NLP.pdf",
+  },
+  {
+    title: "NYT Comment Scraper",
+    description:
+      "Developed a Python-based web scraper using BeautifulSoup and Selenium to extract NYT comments for NLP analysis. Managed dynamic content loading and anti-scraping challenges.",
+    image: "/beautifulsoup.png?height=400&width=600",
+    category: "Web Scraping",
+    link: "/WebScraping.pdf",
+  },
+  {
+    title: "Sentiment Analysis Using VADER (Harris vs. Trump)",
+    description:
+      "Analyzed tweet sentiment for Kamala Harris and Donald Trump using VADER, BERT, Flair, and TextBlob. Found that negative tweets drove the most engagement across both figures.",
+    image: "/sentiment.jpeg?height=400&width=600",
+    category: "Sentiment Analysis",
+    link: "/sentiment.pdf",
   },
 ];
 
+const experience = [
+  {
+    title: "Product Manager",
+    company: "Santo Remedio,India",
+    period: "Aug 2022 - Aug 2024 (2 years)",
+
+    about:
+      "A leading Latin-American wellness brand expanding into DTC digital commerce.",
+    achievements: [
+      "Spearheaded cross-functional team of 12 to develop and execute e-commerce product strategy for Shopify and Amazon integration, driving $2.6M in revenue and 35% growth in customer base.",
+      "Implemented attribution modeling across 5 marketing channels, lowering CAC from $75 to $63 and improving LTV/CAC from 1.7 to 1.9.",
+      "Led ETL pipeline development and built real-time analytics dashboard using BigQuery and Tableau, reducing decision-making time from 10 hours to 30 minutes.",
+      "Constructed a recommendation engine using Association Rules, handling 500K+ daily user interactions and increasing AOV from $63 to $64.29.",
+      "Developed A/B testing framework and executed 9 tests, launching 4 features and improving conversion by 10% (2.2% to 2.42%).",
+    ],
+  },
+  {
+    title: "Senior Data Analyst",
+    company: "UNA Brands,India",
+    period: "Sep 2021 - Jul 2022 (1 year)",
+    about:
+      "A fast-growing e-commerce aggregator acquiring and scaling DTC brands across Asia.",
+    achievements: [
+      "Directed a team of 5 to architect a Unified Data Ecosystem using Celigo and PostgreSQL, reducing onboarding time for acquired brands by over 90%.",
+      "Defined KPIs, OKRs, and facilitated weekly sprints within a Scrum framework; authored PRDs to align cross-functional teams.",
+      "Deployed Jira for backlog and roadmap visibility, resulting in 30% improvement in project delivery time.",
+      "Achieved 24% product performance gain by leading UAT with stakeholders and prioritizing data-driven enhancements.",
+    ],
+  },
+  {
+    title: "Project Team Lead",
+    company: "NxtSuite Technologies,India",
+    period: "Apr 2020 - Sep 2021 (1.3 years)",
+
+    about:
+      "A cloud consulting firm specializing in ERP and integration solutions for SMEs.",
+    achievements: [
+      "Managed 15 clients, leading end-to-end implementation of Order-to-Cash, Procure-to-Pay, and Inventory modules using Celigo and NetSuite ERP.",
+      "Led a team of 5 engineers to integrate NetSuite with third-party APIs, boosting operational efficiency by 40% and driving $200K in revenue.",
+      "Introduced Power BI-based Project Health Check (PHC) report to improve billing and resource allocation by 15%.",
+    ],
+  },
+  {
+    title: "Senior Software Engineer",
+    company: "Infosys, India and China",
+    period: "Nov 2016 - Mar 2020 (4 years)",
+
+    about:
+      "A global technology consulting company serving Fortune 500 clients worldwide.",
+    achievements: [
+      "Architected SAP-PI solutions to support Lonza’s operations in 40+ EMEA and APAC regions.",
+      "Presented strategic recommendations to leadership, securing $1M in additional funding for European expansion.",
+    ],
+  },
+];
 
 export default function Portfolio() {
   return (
@@ -107,19 +185,31 @@ export default function Portfolio() {
         <div className="container flex h-14 max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 items-center justify-between">
           <div className="flex items-center">
             <Link href="/" className="mr-6 flex items-center space-x-2">
-              <span className="font-bold">Alex Morgan</span>
+              <span className="font-bold">Akansha Sinha</span>
             </Link>
             <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
-              <Link href="#about" className="transition-colors hover:text-foreground/80">
+              <Link
+                href="#about"
+                className="transition-colors hover:text-foreground/80"
+              >
                 About
               </Link>
-              <Link href="#projects" className="transition-colors hover:text-foreground/80">
+              <Link
+                href="#projects"
+                className="transition-colors hover:text-foreground/80"
+              >
                 Projects
               </Link>
-              <Link href="#experience" className="transition-colors hover:text-foreground/80">
+              <Link
+                href="#experience"
+                className="transition-colors hover:text-foreground/80"
+              >
                 Experience
               </Link>
-              <Link href="#contact" className="transition-colors hover:text-foreground/80">
+              <Link
+                href="#contact"
+                className="transition-colors hover:text-foreground/80"
+              >
                 Contact
               </Link>
             </nav>
@@ -146,12 +236,18 @@ export default function Portfolio() {
             <div className="flex flex-col justify-center space-y-4">
               <div>
                 <Badge className="mb-2">Available for Work</Badge>
-                <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Alex Morgan</h1>
-                <p className="text-xl text-muted-foreground">Senior Product Manager</p>
+                <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+                  Akansha Sinha
+                </h1>
+                <p className="text-xl text-muted-foreground">Product Manager</p>
               </div>
               <p className="max-w-[600px] text-muted-foreground md:text-xl">
-                I'm a product manager with 7+ years of experience building digital products that users love. I
-                specialize in user-centered design, agile methodologies, and data-driven decision making.
+                I’m a product manager and analytics leader with 8 years of
+                experience across e-commerce, tech consulting, and data
+                strategy. I specialize in data-driven product development,
+                cross-functional leadership, and building scalable solutions.
+                Currently pursuing my MS in Business Analytics at Babson
+                College.
               </p>
               <div className="flex flex-col gap-2 sm:flex-row">
                 <Button asChild>
@@ -161,7 +257,7 @@ export default function Portfolio() {
                   </Link>
                 </Button>
                 <Button variant="outline" asChild>
-                  <Link href="/resume.pdf" target="_blank">
+                  <Link href="/Resume.pdf" target="_blank">
                     <FileText className="mr-2 h-4 w-4" />
                     Download Resume
                   </Link>
@@ -169,7 +265,7 @@ export default function Portfolio() {
               </div>
               <div className="flex items-center gap-4 pt-4">
                 <Link
-                  href="https://linkedin.com"
+                  href="https://www.linkedin.com/in/akanshasinha19/"
                   target="_blank"
                   rel="noreferrer"
                   className="text-muted-foreground hover:text-foreground"
@@ -178,7 +274,7 @@ export default function Portfolio() {
                   <span className="sr-only">LinkedIn</span>
                 </Link>
                 <Link
-                  href="https://github.com"
+                  href="https://github.com/akanshasinha19/"
                   target="_blank"
                   rel="noreferrer"
                   className="text-muted-foreground hover:text-foreground"
@@ -186,7 +282,10 @@ export default function Portfolio() {
                   <Github className="h-5 w-5" />
                   <span className="sr-only">GitHub</span>
                 </Link>
-                <Link href="mailto:alex@example.com" className="text-muted-foreground hover:text-foreground">
+                <Link
+                  href="mailto:akansha.akg19@gmail.com"
+                  className="text-muted-foreground hover:text-foreground"
+                >
                   <Mail className="h-5 w-5" />
                   <span className="sr-only">Email</span>
                 </Link>
@@ -195,8 +294,8 @@ export default function Portfolio() {
             <div className="flex items-center justify-center">
               <div className="relative h-[250px] w-[250px] sm:h-[300px] sm:w-[300px] overflow-hidden rounded-full border-4 border-background bg-muted md:h-[400px] md:w-[400px]">
                 <Image
-                  src="/jhibli.jpg?height=400&width=400"
-                  alt="Alex Morgan"
+                  src="/akansha.PNG?height=400&width=400"
+                  alt="Akansha Sinha"
                   fill
                   className="object-cover"
                   priority
@@ -208,7 +307,9 @@ export default function Portfolio() {
 
         {/* Skills Section */}
         <section className="py-8 md:py-12">
-          <h2 className="mb-6 md:mb-8 text-2xl font-bold tracking-tight">My Skills & Expertise</h2>
+          <h2 className="mb-6 md:mb-8 text-2xl font-bold tracking-tight">
+            My Skills & Expertise
+          </h2>
           <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
             <Card>
               <CardHeader>
@@ -257,7 +358,9 @@ export default function Portfolio() {
 
         {/* Projects Section */}
         <section id="projects" className="py-8 md:py-12">
-          <h2 className="mb-6 md:mb-8 text-2xl font-bold tracking-tight">Featured Projects</h2>
+          <h2 className="mb-6 md:mb-8 text-2xl font-bold tracking-tight">
+            Featured Projects
+          </h2>
           <Tabs defaultValue="all" className="w-full">
             <TabsList className="mb-6 w-full overflow-x-auto">
               <TabsTrigger value="all">All Projects</TabsTrigger>
@@ -304,24 +407,32 @@ export default function Portfolio() {
 
         {/* Experience Section */}
         <section id="experience" className="py-8 md:py-12">
-          <h2 className="mb-6 md:mb-8 text-2xl font-bold tracking-tight">Work Experience</h2>
+          <h2 className="mb-6 md:mb-8 text-2xl font-bold tracking-tight">
+            Work Experience
+          </h2>
           <div className="space-y-6">
             {experience.map((job, index) => (
               <Card key={index}>
-                <CardHeader>
+                <CardHeader style={{ "padding-bottom": "10px;" }}>
                   <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
                     <div>
                       <CardTitle>{job.title}</CardTitle>
-                      <CardDescription className="text-base">{job.company}</CardDescription>
+                      <CardDescription className="text-base">
+                        {job.company}
+                      </CardDescription>
                     </div>
-                    <Badge variant="outline" className="w-fit">{job.period}</Badge>
+                    <Badge variant="outline" className="w-fit">
+                      {job.period}
+                    </Badge>
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
-                    <MapPin className="h-4 w-4 flex-shrink-0" />
-                    <span>{job.location}</span>
+                  <div className="mb-2">
+                    <div className="italic text-base text-muted-foreground">
+                      {job.about}
+                    </div>
                   </div>
+
                   <ul className="list-disc pl-5 space-y-2">
                     {job.achievements.map((achievement, i) => (
                       <li key={i}>{achievement}</li>
@@ -335,38 +446,45 @@ export default function Portfolio() {
 
         {/* Contact Section */}
         <section id="contact" className="py-8 md:py-12">
-          <h2 className="mb-6 md:mb-8 text-2xl font-bold tracking-tight">Get In Touch</h2>
+          <h2 className="mb-6 md:mb-8 text-2xl font-bold tracking-tight">
+            Get In Touch
+          </h2>
           <Card>
             <CardHeader>
               <CardTitle>Contact Information</CardTitle>
-              <CardDescription>Feel free to reach out for opportunities or just to say hello!</CardDescription>
+              <CardDescription>
+                Feel free to reach out for opportunities or just to say hello!
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center gap-3">
                 <Mail className="h-5 w-5 text-muted-foreground flex-shrink-0" />
-                <a href="mailto:alex@example.com" className="hover:underline break-all">
-                  alex@example.com
+                <a
+                  href="mailto:akansha.akg19@gmail.com"
+                  className="hover:underline break-all"
+                >
+                  akansha.akg19@gmail.com
                 </a>
               </div>
               <div className="flex items-center gap-3">
                 <Linkedin className="h-5 w-5 text-muted-foreground flex-shrink-0" />
                 <a
-                  href="https://linkedin.com/in/alexmorgan"
+                  href="https://www.linkedin.com/in/akanshasinha19/"
                   target="_blank"
                   rel="noreferrer"
                   className="hover:underline break-all"
                 >
-                  linkedin.com/in/alexmorgan
+                  https://www.linkedin.com/in/akanshasinha19/
                 </a>
               </div>
               <div className="flex items-center gap-3">
                 <MapPin className="h-5 w-5 text-muted-foreground flex-shrink-0" />
-                <span>San Francisco, CA (Open to Remote)</span>
+                <span>Boston, MA (Open to Remote)</span>
               </div>
             </CardContent>
             <CardFooter>
               <Button asChild className="w-full">
-                <a href="mailto:alex@example.com">
+                <a href="mailto:akansha.akg19@gmail.com">
                   <Mail className="mr-2 h-4 w-4" />
                   Send Email
                 </a>
@@ -380,7 +498,7 @@ export default function Portfolio() {
       <footer className="border-t py-6">
         <div className="container max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
           <p className="text-center text-sm leading-loose text-muted-foreground md:text-left">
-            © 2025 Alex Morgan. All rights reserved.
+            © 2025 Akansha Sinha. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
             <Link
@@ -393,7 +511,7 @@ export default function Portfolio() {
               <span className="sr-only">LinkedIn</span>
             </Link>
             <Link
-              href="https://github.com"
+              href="https://github.com/akanshasinha19/"
               target="_blank"
               rel="noreferrer"
               className="text-muted-foreground hover:text-foreground"
@@ -401,7 +519,10 @@ export default function Portfolio() {
               <Github className="h-5 w-5" />
               <span className="sr-only">GitHub</span>
             </Link>
-            <Link href="mailto:alex@example.com" className="text-muted-foreground hover:text-foreground">
+            <Link
+              href="mailto:akansha.akg19@gmail.com"
+              className="text-muted-foreground hover:text-foreground"
+            >
               <Mail className="h-5 w-5" />
               <span className="sr-only">Email</span>
             </Link>
@@ -409,7 +530,7 @@ export default function Portfolio() {
         </div>
       </footer>
     </div>
-  )
+  );
 }
 
 // Project Card Component
@@ -432,18 +553,18 @@ function ProjectCard({ project }) {
         </div>
       </CardHeader>
       <CardContent>
-        <p className="line-clamp-3 text-sm text-muted-foreground">{project.description}</p>
+        <p className="line-clamp-3 text-sm text-muted-foreground">
+          {project.description}
+        </p>
       </CardContent>
       <CardFooter className="mt-auto">
         <Button asChild variant="outline" className="w-full">
-          <Link href={project.link}>
+          <Link href={project.link} target="_blank">
             View Case Study
             <ArrowRight className="ml-2 h-4 w-4" />
           </Link>
         </Button>
       </CardFooter>
     </Card>
-  )
+  );
 }
-
-// Sample Data

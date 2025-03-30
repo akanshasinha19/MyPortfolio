@@ -52,7 +52,7 @@ const projects = [
     description:
       "Created an interactive Tableau dashboard analyzing real-time usage trends for Blue Bikes, improving operational efficiency by 29%.",
     image: "/bluebikes.png?height=400&width=600",
-    category: "Data Analytics",
+    category: "Data Visualization",
     link: "/bluebikes.pdf",
   },
   {
@@ -364,9 +364,10 @@ export default function Portfolio() {
           <Tabs defaultValue="all" className="w-full">
             <TabsList className="mb-6 w-full overflow-x-auto">
               <TabsTrigger value="all">All Projects</TabsTrigger>
-              <TabsTrigger value="saas">SaaS</TabsTrigger>
-              <TabsTrigger value="mobile">Mobile</TabsTrigger>
-              <TabsTrigger value="enterprise">Enterprise</TabsTrigger>
+              <TabsTrigger value="ecom">E-commerce</TabsTrigger>
+              <TabsTrigger value="dta">Data Analytics</TabsTrigger>
+              <TabsTrigger value="mkt">Marketing Analytics</TabsTrigger>
+              <TabsTrigger value="ml">Machine Learning</TabsTrigger>
             </TabsList>
             <TabsContent value="all" className="space-y-6">
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -375,28 +376,46 @@ export default function Portfolio() {
                 ))}
               </div>
             </TabsContent>
-            <TabsContent value="saas" className="space-y-6">
+            <TabsContent value="ecom" className="space-y-6">
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {projects
-                  .filter((p) => p.category === "SaaS")
+                  .filter((p) => p.category === "E-commerce")
                   .map((project, index) => (
                     <ProjectCard key={index} project={project} />
                   ))}
               </div>
             </TabsContent>
-            <TabsContent value="mobile" className="space-y-6">
+            <TabsContent value="dta" className="space-y-6">
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {projects
-                  .filter((p) => p.category === "Mobile")
+                  .filter(
+                    (p) =>
+                      p.category === "Data Analytics" ||
+                      p.category === "Data Visualization",
+                  )
                   .map((project, index) => (
                     <ProjectCard key={index} project={project} />
                   ))}
               </div>
             </TabsContent>
-            <TabsContent value="enterprise" className="space-y-6">
+            <TabsContent value="mkt" className="space-y-6">
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {projects
-                  .filter((p) => p.category === "Enterprise")
+                  .filter((p) => p.category === "Marketing Analytics")
+                  .map((project, index) => (
+                    <ProjectCard key={index} project={project} />
+                  ))}
+              </div>
+            </TabsContent>
+
+            <TabsContent value="ml" className="space-y-6">
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {projects
+                  .filter(
+                    (p) =>
+                      p.category === "Machine Learning" ||
+                      p.category === "Natural Language Processing",
+                  )
                   .map((project, index) => (
                     <ProjectCard key={index} project={project} />
                   ))}
@@ -536,7 +555,10 @@ export default function Portfolio() {
 // Project Card Component
 function ProjectCard({ project }) {
   return (
-    <Card className="overflow-hidden flex flex-col">
+    <Card className="relative overflow-hidden flex flex-col">
+      {/* Category Badge in Top-Right */}
+      <Badge className="absolute top-2 right-2 z-10">{project.category}</Badge>
+
       <div className="aspect-video w-full overflow-hidden">
         <Image
           src={project.image || "/placeholder.svg"}
@@ -546,17 +568,19 @@ function ProjectCard({ project }) {
           className="h-full w-full object-cover transition-all hover:scale-105"
         />
       </div>
+
       <CardHeader>
-        <div className="flex items-start justify-between gap-2">
-          <CardTitle className="line-clamp-1">{project.title}</CardTitle>
-          <Badge className="whitespace-nowrap">{project.category}</Badge>
-        </div>
+        <CardTitle className="text-base font-semibold line-clamp-2">
+          {project.title}
+        </CardTitle>
       </CardHeader>
+
       <CardContent>
         <p className="line-clamp-3 text-sm text-muted-foreground">
           {project.description}
         </p>
       </CardContent>
+
       <CardFooter className="mt-auto">
         <Button asChild variant="outline" className="w-full">
           <Link href={project.link} target="_blank">

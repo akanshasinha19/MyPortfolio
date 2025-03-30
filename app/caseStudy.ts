@@ -30,7 +30,7 @@ The project delivered measurable impact. Within two years, the new channels gene
 ## Reflection  
 This project taught me the importance of aligning technical infrastructure with business strategy. It wasn’t just about launching a new store—it was about productizing a new operational model. By starting with user discovery and mapping internal friction, I ensured we built a system that was not only scalable, but adopted and loved by those who used it daily. It became a template for future integrations and marked Santo Remedio’s transition into a data-informed, platform-ready brand.
 `,
- "ecommerce-integration-case2": `# Recommendation Engine for Product Boost  
+ "recommendation-engine": `# Recommendation Engine for Product Boost  
 **Santo Remedio | Product Manager**  
 **Aug 2022 – Aug 2024**
 
@@ -62,7 +62,7 @@ The project also provided the foundation for more sophisticated recommendation s
 This was one of my favorite examples of iterative product thinking. Rather than chasing complexity, I shipped an MVP that delivered value fast, aligned with our tech capabilities, and created a path toward future personalization. The engine wasn’t just a feature — it was a stepping stone toward making Santo Remedio’s digital experience smarter, more contextual, and more responsive to user intent.
 `,
 
- "ecommerce-integration-case3":`# Real-time Analytics Dashboard  
+ "real-time-dashboard":`# Real-time Analytics Dashboard  
 **Santo Remedio | Product Manager**  
 **Aug 2022 – Aug 2024**
 
@@ -93,7 +93,4 @@ Perhaps most importantly, it helped shift the company’s culture toward evidenc
 ## Reflection  
 This was more than a reporting tool. It was a product that empowered every other team to be more effective. I treated data not just as a resource, but as an experience — one that needed discovery, iteration, and design. The result was not just faster answers, but better decisions.
 `
-
-
-    
   };

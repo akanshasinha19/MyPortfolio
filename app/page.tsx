@@ -12,8 +12,9 @@ import {
   User,
   X,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
+import { motion } from "framer-motion";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -40,10 +41,32 @@ import {caseStudyContent, projects, experience} from "@/app/caseStudy"; // Impor
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { nord } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 
-// Sample case study content (in real app, this would likely be fetched from a CMS or API)
+// Animation variants for staggered animations
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.1
+    }
+  }
+};
+
+const itemVariants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      duration: 0.5,
+    }
+  }
+};
 
 export default function Portfolio() {
   const [openCaseStudy, setOpenCaseStudy] = useState(null);
+  const [hasScrolled, setHasScrolled] = useState(false);
 
   // Function to handle opening a case study
   const handleOpenCaseStudy = (projectId) => {
@@ -55,10 +78,29 @@ export default function Portfolio() {
     setOpenCaseStudy(null);
   };
 
+  // Add scroll listener effect for header animations
+  useEffect(() => {
+    const handleScroll = () => {
+      setHasScrolled(window.scrollY > 10);
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="sticky top-0 z-10 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      {/* Header with animation */}
+      <motion.header 
+        className="sticky top-0 z-10 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.3 }}
+        style={{
+          boxShadow: hasScrolled ? "0 2px 8px rgba(0,0,0,0.1)" : "none",
+          transition: "box-shadow 0.3s ease"
+        }}
+      >
         <div className="container flex h-14 max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 items-center justify-between">
           <div className="flex items-center">
             <Link href="/" className="mr-6 flex items-center space-x-2">
@@ -104,13 +146,18 @@ export default function Portfolio() {
             </Button>
           </div>
         </div>
-      </header>
+      </motion.header>
 
       <main className="container max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-10">
-        {/* Hero Section */}
+        {/* Hero Section with animations */}
         <section id="about" className="py-8 md:py-16">
           <div className="grid gap-8 md:grid-cols-2 md:gap-12 items-center">
-            <div className="flex flex-col justify-center space-y-4">
+            <motion.div 
+              className="flex flex-col justify-center space-y-4"
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+            >
               <div>
                 <Badge className="mb-2">Available for Work</Badge>
                 <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
@@ -167,9 +214,18 @@ export default function Portfolio() {
                   <span className="sr-only">Email</span>
                 </Link>
               </div>
-            </div>
-            <div className="flex items-center justify-center">
-              <div className="relative h-[250px] w-[250px] sm:h-[300px] sm:w-[300px] overflow-hidden rounded-full border-4 border-background bg-muted md:h-[400px] md:w-[400px]">
+            </motion.div>
+            <motion.div 
+              className="flex items-center justify-center"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <motion.div 
+                className="relative h-[250px] w-[250px] sm:h-[300px] sm:w-[300px] overflow-hidden rounded-full border-4 border-background bg-muted md:h-[400px] md:w-[400px]"
+                whileHover={{ scale: 1.05, rotate: 5 }}
+                transition={{ duration: 0.3 }}
+              >
                 <Image
                   src="/akansha.PNG?height=400&width=400"
                   alt="Akansha Sinha"
@@ -177,67 +233,93 @@ export default function Portfolio() {
                   className="object-cover"
                   priority
                 />
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           </div>
         </section>
 
-        {/* Skills Section */}
-        <section className="py-8 md:py-12">
-          <h2 className="mb-6 md:mb-8 text-2xl font-bold tracking-tight">
+        {/* Skills Section with animations */}
+        <motion.section 
+          className="py-8 md:py-12"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={containerVariants}
+        >
+          <motion.h2 
+            className="mb-6 md:mb-8 text-2xl font-bold tracking-tight"
+            variants={itemVariants}
+          >
             My Skills & Expertise
-          </h2>
+          </motion.h2>
           <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
-            <Card>
-              <CardHeader>
-                <CardTitle>Product Strategy</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ul className="list-disc pl-5 space-y-2">
-                  <li>Market Research</li>
-                  <li>Competitive Analysis</li>
-                  <li>Product Roadmapping</li>
-                  <li>Go-to-Market Planning</li>
-                  <li>Product Lifecycle Management</li>
-                </ul>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle>Technical Skills</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ul className="list-disc pl-5 space-y-2">
-                  <li>Agile & Scrum</li>
-                  <li>JIRA & Confluence</li>
-                  <li>SQL & Data Analysis</li>
-                  <li>Wireframing & Prototyping</li>
-                  <li>A/B Testing</li>
-                </ul>
-              </CardContent>
-            </Card>
-            <Card className="sm:col-span-2 md:col-span-1">
-              <CardHeader>
-                <CardTitle>Leadership</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ul className="list-disc pl-5 space-y-2">
-                  <li>Cross-functional Team Leadership</li>
-                  <li>Stakeholder Management</li>
-                  <li>Product Team Mentoring</li>
-                  <li>Executive Communication</li>
-                  <li>Product Vision Setting</li>
-                </ul>
-              </CardContent>
-            </Card>
+            {/* Wrap each Card in motion.div */}
+            <motion.div variants={itemVariants}>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Product Strategy</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ul className="list-disc pl-5 space-y-2">
+                    <li>Market Research</li>
+                    <li>Competitive Analysis</li>
+                    <li>Product Roadmapping</li>
+                    <li>Go-to-Market Planning</li>
+                    <li>Product Lifecycle Management</li>
+                  </ul>
+                </CardContent>
+              </Card>
+            </motion.div>
+            <motion.div variants={itemVariants}>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Technical Skills</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ul className="list-disc pl-5 space-y-2">
+                    <li>Agile & Scrum</li>
+                    <li>JIRA & Confluence</li>
+                    <li>SQL & Data Analysis</li>
+                    <li>Wireframing & Prototyping</li>
+                    <li>A/B Testing</li>
+                  </ul>
+                </CardContent>
+              </Card>
+            </motion.div>
+            <motion.div variants={itemVariants}>
+              <Card className="sm:col-span-2 md:col-span-1">
+                <CardHeader>
+                  <CardTitle>Leadership</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ul className="list-disc pl-5 space-y-2">
+                    <li>Cross-functional Team Leadership</li>
+                    <li>Stakeholder Management</li>
+                    <li>Product Team Mentoring</li>
+                    <li>Executive Communication</li>
+                    <li>Product Vision Setting</li>
+                  </ul>
+                </CardContent>
+              </Card>
+            </motion.div>
           </div>
-        </section>
+        </motion.section>
 
-        {/* Projects Section */}
-        <section id="projects" className="py-8 md:py-12">
-          <h2 className="mb-6 md:mb-8 text-2xl font-bold tracking-tight">
+        {/* Projects Section with animations */}
+        <motion.section 
+          id="projects" 
+          className="py-8 md:py-12"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={containerVariants}
+        >
+          <motion.h2 
+            className="mb-6 md:mb-8 text-2xl font-bold tracking-tight"
+            variants={itemVariants}
+          >
             Featured Projects
-          </h2>
+          </motion.h2>
           <Tabs defaultValue="all" className="w-full">
             <TabsList className="mb-6 w-full overflow-x-auto">
               <TabsTrigger value="all">All Projects</TabsTrigger>
@@ -247,31 +329,48 @@ export default function Portfolio() {
               <TabsTrigger value="ml">Machine Learning</TabsTrigger>
             </TabsList>
             <TabsContent value="all" className="space-y-6">
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              <motion.div 
+                className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+              >
                 {projects.map((project, index) => (
-                  <ProjectCard 
-                    key={index} 
-                    project={project} 
-                    onOpenCaseStudy={handleOpenCaseStudy}
-                  />
-                ))}
-              </div>
-            </TabsContent>
-            <TabsContent value="ecom" className="space-y-6">
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {projects
-                  .filter((p) => p.category === "E-commerce")
-                  .map((project, index) => (
+                  <motion.div key={index} variants={itemVariants}>
                     <ProjectCard 
-                      key={index} 
                       project={project} 
                       onOpenCaseStudy={handleOpenCaseStudy}
                     />
+                  </motion.div>
+                ))}
+              </motion.div>
+            </TabsContent>
+            <TabsContent value="ecom" className="space-y-6">
+              <motion.div 
+                className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+              >
+                {projects
+                  .filter((p) => p.category === "E-commerce")
+                  .map((project, index) => (
+                    <motion.div key={index} variants={itemVariants}>
+                      <ProjectCard 
+                        project={project} 
+                        onOpenCaseStudy={handleOpenCaseStudy}
+                      />
+                    </motion.div>
                   ))}
-              </div>
+              </motion.div>
             </TabsContent>
             <TabsContent value="dta" className="space-y-6">
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              <motion.div 
+                className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+              >
                 {projects
                   .filter(
                     (p) =>
@@ -279,30 +378,41 @@ export default function Portfolio() {
                       p.category === "Data Visualization",
                   )
                   .map((project, index) => (
-                    <ProjectCard 
-                      key={index} 
-                      project={project} 
-                      onOpenCaseStudy={handleOpenCaseStudy}
-                    />
+                    <motion.div key={index} variants={itemVariants}>
+                      <ProjectCard 
+                        project={project} 
+                        onOpenCaseStudy={handleOpenCaseStudy}
+                      />
+                    </motion.div>
                   ))}
-              </div>
+              </motion.div>
             </TabsContent>
             <TabsContent value="mkt" className="space-y-6">
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              <motion.div 
+                className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+              >
                 {projects
                   .filter((p) => p.category === "Marketing Analytics")
                   .map((project, index) => (
-                    <ProjectCard 
-                      key={index} 
-                      project={project} 
-                      onOpenCaseStudy={handleOpenCaseStudy}
-                    />
+                    <motion.div key={index} variants={itemVariants}>
+                      <ProjectCard 
+                        project={project} 
+                        onOpenCaseStudy={handleOpenCaseStudy}
+                      />
+                    </motion.div>
                   ))}
-              </div>
+              </motion.div>
             </TabsContent>
-
             <TabsContent value="ml" className="space-y-6">
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              <motion.div 
+                className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+              >
                 {projects
                   .filter(
                     (p) =>
@@ -310,111 +420,143 @@ export default function Portfolio() {
                       p.category === "Natural Language Processing",
                   )
                   .map((project, index) => (
-                    <ProjectCard 
-                      key={index} 
-                      project={project} 
-                      onOpenCaseStudy={handleOpenCaseStudy}
-                    />
+                    <motion.div key={index} variants={itemVariants}>
+                      <ProjectCard 
+                        project={project} 
+                        onOpenCaseStudy={handleOpenCaseStudy}
+                      />
+                    </motion.div>
                   ))}
-              </div>
+              </motion.div>
             </TabsContent>
           </Tabs>
-        </section>
+        </motion.section>
 
-        {/* Experience Section */}
-        <section id="experience" className="py-8 md:py-12">
-          <h2 className="mb-6 md:mb-8 text-2xl font-bold tracking-tight">
+        {/* Experience Section with animations */}
+        <motion.section 
+          id="experience" 
+          className="py-8 md:py-12"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={containerVariants}
+        >
+          <motion.h2 
+            className="mb-6 md:mb-8 text-2xl font-bold tracking-tight"
+            variants={itemVariants}
+          >
             Work Experience
-          </h2>
+          </motion.h2>
           <div className="space-y-6">
             {experience.map((job, index) => (
-              <Card key={index}>
-                <CardHeader style={{ "padding-bottom": "10px;" }}>
-                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
-                    <div>
-                      <CardTitle>{job.title}</CardTitle>
-                      <CardDescription className="text-base">
-                        {job.company}
-                      </CardDescription>
+              <motion.div 
+                key={index}
+                variants={itemVariants}
+              >
+                <Card>
+                  <CardHeader style={{ "padding-bottom": "10px;" }}>
+                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
+                      <div>
+                        <CardTitle>{job.title}</CardTitle>
+                        <CardDescription className="text-base">
+                          {job.company}
+                        </CardDescription>
+                      </div>
+                      <Badge variant="outline" className="w-fit">
+                        {job.period}
+                      </Badge>
                     </div>
-                    <Badge variant="outline" className="w-fit">
-                      {job.period}
-                    </Badge>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <div className="mb-2">
-                    <div className="italic text-base text-muted-foreground">
-                      {job.about}
+                  </CardHeader>
+                  <CardContent>
+                    <div className="mb-2">
+                      <div className="italic text-base text-muted-foreground">
+                        {job.about}
+                      </div>
                     </div>
-                  </div>
 
-                  <ul className="list-disc pl-5 space-y-2">
-                    {job.achievements.map((achievement, i) => (
-                      <li key={i}>{achievement}</li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
+                    <ul className="list-disc pl-5 space-y-2">
+                      {job.achievements.map((achievement, i) => (
+                        <li key={i}>{achievement}</li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
+              </motion.div>
             ))}
           </div>
-        </section>
+        </motion.section>
 
-        {/* Contact Section */}
-        <section id="contact" className="py-8 md:py-12">
-          <h2 className="mb-6 md:mb-8 text-2xl font-bold tracking-tight">
+        {/* Contact Section with animations */}
+        <motion.section 
+          id="contact" 
+          className="py-8 md:py-12"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={containerVariants}
+        >
+          <motion.h2 
+            className="mb-6 md:mb-8 text-2xl font-bold tracking-tight"
+            variants={itemVariants}
+          >
             Get In Touch
-          </h2>
-          <Card>
-            <CardHeader>
-              <CardTitle>Contact Information</CardTitle>
-              <CardDescription>
-                Feel free to reach out for opportunities or just to say hello!
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center gap-3">
-                <Mail className="h-5 w-5 text-muted-foreground flex-shrink-0" />
-                <a
-                  href="mailto:akansha.akg19@gmail.com"
-                  className="hover:underline break-all"
-                >
-                  akansha.akg19@gmail.com
-                </a>
-              </div>
-              <div className="flex items-center gap-3">
-                <Linkedin className="h-5 w-5 text-muted-foreground flex-shrink-0" />
-                <a
-                  href="https://www.linkedin.com/in/akanshasinha19/"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="hover:underline break-all"
-                >
-                  https://www.linkedin.com/in/akanshasinha19/
-                </a>
-              </div>
-              <div className="flex items-center gap-3">
-                <MapPin className="h-5 w-5 text-muted-foreground flex-shrink-0" />
-                <span>Boston, MA (Open to Remote)</span>
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Button asChild className="w-full">
-                <a href="mailto:akansha.akg19@gmail.com">
-                  <Mail className="mr-2 h-4 w-4" />
-                  Send Email
-                </a>
-              </Button>
-            </CardFooter>
-          </Card>
-        </section>
+          </motion.h2>
+          <motion.div variants={itemVariants}>
+            <Card>
+              <CardHeader>
+                <CardTitle>Contact Information</CardTitle>
+                <CardDescription>
+                  Feel free to reach out for opportunities or just to say hello!
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex items-center gap-3">
+                  <Mail className="h-5 w-5 text-muted-foreground flex-shrink-0" />
+                  <a
+                    href="mailto:akansha.akg19@gmail.com"
+                    className="hover:underline break-all"
+                  >
+                    akansha.akg19@gmail.com
+                  </a>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Linkedin className="h-5 w-5 text-muted-foreground flex-shrink-0" />
+                  <a
+                    href="https://www.linkedin.com/in/akanshasinha19/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="hover:underline break-all"
+                  >
+                    https://www.linkedin.com/in/akanshasinha19/
+                  </a>
+                </div>
+                <div className="flex items-center gap-3">
+                  <MapPin className="h-5 w-5 text-muted-foreground flex-shrink-0" />
+                  <span>Boston, MA (Open to Remote)</span>
+                </div>
+              </CardContent>
+              <CardFooter>
+                <Button asChild className="w-full">
+                  <a href="mailto:akansha.akg19@gmail.com">
+                    <Mail className="mr-2 h-4 w-4" />
+                    Send Email
+                  </a>
+                </Button>
+              </CardFooter>
+            </Card>
+          </motion.div>
+        </motion.section>
       </main>
 
-      {/* Case Study Modal */}
+      {/* Case Study Modal with animations */}
       <Dialog open={!!openCaseStudy} onOpenChange={() => openCaseStudy && handleCloseCaseStudy()}>
         <DialogContent className="max-w-full max-h-full w-full h-[100vh] p-0 m-0 overflow-hidden border-none">
           {openCaseStudy && (
-            <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
               <div className="sticky top-0 z-10 flex items-center justify-between p-4 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
                 <DialogTitle className="text-xl font-bold">
                   {projects.find(p => p.link === openCaseStudy || p.link.endsWith(openCaseStudy))?.title || 'Case Study'}
@@ -490,13 +632,19 @@ export default function Portfolio() {
                   </ReactMarkdown>
                 </div>
               </div>
-            </>
+            </motion.div>
           )}
         </DialogContent>
       </Dialog>
       
-      {/* Footer */}
-      <footer className="border-t py-6">
+      {/* Footer with animations */}
+      <motion.footer 
+        className="border-t py-6"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+      >
         <div className="container max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
           <p className="text-center text-sm leading-loose text-muted-foreground md:text-left">
             © 2025 Akansha Sinha. All rights reserved.
@@ -529,72 +677,78 @@ export default function Portfolio() {
             </Link>
           </div>
         </div>
-      </footer>
+      </motion.footer>
     </div>
   );
 }
 
-// Project Card Component
+// Project Card Component with animations
 function ProjectCard({project, onOpenCaseStudy }) {
   const handleClick = () => {
     if (project.type === "CaseStudy") {
-      // Extract project ID from the link
-      
       const projectId = project.link.split('/').pop();
-      console.log("Project ID:", projectId);
       if(!caseStudyContent.hasOwnProperty(projectId)) {
         return;
       }
-
       onOpenCaseStudy(projectId);
     } else {
-      // For non-case study projects, do nothing here as the Link component will handle navigation
       return;
     }
   };
 
   return (
-    <Card className="relative overflow-hidden flex flex-col">
-      {/* Category Badge in Top-Right */}
-      <Badge className="absolute top-2 right-2 z-10">{project.category}</Badge>
+    <motion.div
+      whileHover={{ 
+        scale: 1.03,
+        boxShadow: "0 10px 20px rgba(0,0,0,0.1)",
+      }}
+      transition={{ duration: 0.3 }}
+    >
+      <Card className="relative overflow-hidden flex flex-col h-full">
+        <Badge className="absolute top-2 right-2 z-10">{project.category}</Badge>
 
-      <div className="aspect-video w-full overflow-hidden">
-        <Image
-          src={project.image || "/placeholder.svg"}
-          alt={project.title}
-          width={600}
-          height={400}
-          className="h-full w-full object-cover transition-all hover:scale-105"
-        />
-      </div>
+        <div className="aspect-video w-full overflow-hidden">
+          <Image
+            src={project.image || "/placeholder.svg"}
+            alt={project.title}
+            width={600}
+            height={400}
+            className="h-full w-full object-cover transition-all group-hover:scale-105"
+          />
+        </div>
 
-      <CardHeader>
-        <CardTitle className="text-base font-semibold line-clamp-2">
-          {project.title}
-        </CardTitle>
-      </CardHeader>
+        <CardHeader>
+          <CardTitle className="text-base font-semibold line-clamp-2">
+            {project.title}
+          </CardTitle>
+        </CardHeader>
 
-      <CardContent>
-        <p className="line-clamp-3 text-sm text-muted-foreground">
-          {project.description}
-        </p>
-      </CardContent>
+        <CardContent>
+          <p className="line-clamp-3 text-sm text-muted-foreground">
+            {project.description}
+          </p>
+        </CardContent>
 
-      <CardFooter className="mt-auto">
-        {project.type === "CaseStudy" ? (
-          <Button onClick={handleClick} variant="outline" className="w-full">
-            View Case Study
-            <ArrowRight className="ml-2 h-4 w-4" />
-          </Button>
-        ) : (
-          <Button asChild variant="outline" className="w-full">
-            <Link href={project.link} target="_blank">
-              View Project
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
-          </Button>
-        )}
-      </CardFooter>
-    </Card>
+        <CardFooter className="mt-auto">
+          {project.type === "CaseStudy" ? (
+            <motion.div whileTap={{ scale: 0.97 }} className="w-full">
+              <Button onClick={handleClick} variant="outline" className="w-full">
+                View Case Study
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </motion.div>
+          ) : (
+            <motion.div whileTap={{ scale: 0.97 }} className="w-full">
+              <Button asChild variant="outline" className="w-full">
+                <Link href={project.link} target="_blank">
+                  View Project
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+            </motion.div>
+          )}
+        </CardFooter>
+      </Card>
+    </motion.div>
   );
 }

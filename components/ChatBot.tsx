@@ -49,6 +49,8 @@ export default function ChatBot() {
   });
   const [isSending, setIsSending] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
+  // Add state for the attention pointer
+  const [showAttentionPointer, setShowAttentionPointer] = useState(true);
   
   // WebLLM state
   const [model, setModel] = useState<ChatModule | null>(null);
@@ -61,6 +63,13 @@ export default function ChatBot() {
     if (isOpen && !model && !modelLoading && !modelError) {
     }
   }, [isOpen, model, modelLoading, modelError]);
+
+  // Hide the attention pointer when chat is opened
+  useEffect(() => {
+    if (isOpen) {
+      setShowAttentionPointer(false);
+    }
+  }, [isOpen]);
 
   // Auto scroll to bottom when messages update
   useEffect(() => {
@@ -231,11 +240,30 @@ export default function ChatBot() {
     <>
       {/* Chat toggle button */}
       <motion.div
-        className="fixed bottom-5 right-5 z-50"
+        className="fixed bottom-5 right-5 z-50" // Removed conflicting "relative" class
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ type: "spring", stiffness: 260, damping: 20 }}
       >
+        {/* Attention pointer message bubble */}
+        <AnimatePresence>
+          {showAttentionPointer && !isOpen && (
+            <motion.div
+              className="absolute -top-16 right-0 bg-primary text-primary-foreground p-3 rounded-lg shadow-lg max-w-[200px]"
+              initial={{ opacity: 0, scale: 0.8, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.8, y: 10 }}
+              transition={{ delay: 1 }}
+            >
+              <div className="text-sm font-medium">
+                👋 Need help? Ask me anything!
+              </div>
+              {/* Triangle pointer at bottom */}
+              <div className="absolute bottom-[-8px] right-[18px] w-4 h-4 bg-primary rotate-45" />
+            </motion.div>
+          )}
+        </AnimatePresence>
+        
         <Button
           onClick={toggleChat}
           className="h-14 w-14 rounded-full shadow-lg"

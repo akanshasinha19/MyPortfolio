@@ -39,9 +39,6 @@ import {
 import {caseStudyContent, projects, experience} from "@/app/caseStudy"; // Importing case study content
 import ThreeBackground from "@/components/ThreeBackground"; // Import the 3D background
 
-// Import SkillGlobe dynamically with SSR disabled
-const SkillGlobe = dynamic(() => import('@/components/SkillGlobe'), { ssr: false });
-
 // Import necessary components for better markdown rendering
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { nord } from 'react-syntax-highlighter/dist/cjs/styles/prism';
@@ -262,22 +259,6 @@ export default function Portfolio() {
           </motion.h2>
           
           {/* Add the 3D skill globe */}
-          <motion.div
-            variants={itemVariants}
-            className="mb-8"
-          >
-            <SkillGlobe skills={[
-              "Product Strategy", 
-              "Data Analysis", 
-              "Leadership", 
-              "Agile & Scrum", 
-              "SQL", 
-              "Market Research", 
-              "Wireframing",
-              "A/B Testing",
-              "Roadmapping"
-            ]} />
-          </motion.div>
           
           <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
             {/* Wrap each Card in motion.div */}

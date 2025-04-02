@@ -94,7 +94,7 @@ export default function Portfolio() {
     <div className="min-h-screen bg-background">
       {/* Header with animation */}
       <motion.header 
-        className="sticky top-0 z-10 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+        className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.3 }}
@@ -156,7 +156,7 @@ export default function Portfolio() {
           {/* Add the animated background */}
           <ThreeBackground className="opacity-50" />
           
-          <div className="grid gap-8 md:grid-cols-2 md:gap-12 items-center relative z-10">
+          <div className="grid gap-8 md:grid-cols-2 md:gap-12 items-center relative z-0">
             <motion.div 
               className="flex flex-col justify-center space-y-4"
               initial={{ opacity: 0, x: -30 }}

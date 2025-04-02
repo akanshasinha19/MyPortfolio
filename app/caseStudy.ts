@@ -94,3 +94,163 @@ Perhaps most importantly, it helped shift the company’s culture toward evidenc
 This was more than a reporting tool. It was a product that empowered every other team to be more effective. I treated data not just as a resource, but as an experience — one that needed discovery, iteration, and design. The result was not just faster answers, but better decisions.
 `
   };
+
+export const projects = [
+    {
+      title: "E-commerce Marketplace Integration",
+      description:
+        "Led the Shopify & Amazon integration at Santo Remedio, resulting in $2.6M revenue growth and a 35% increase in the customer base.",
+      image: "/santo_remedio.png?height=400&width=600",
+      category: "E-commerce",
+      link: "ecommerce-integration",
+      type: "CaseStudy",
+    },
+    {
+      title: "Recommendation Engine for Product Boost",
+      description:
+        "Developed a recommendation engine using Association Rules, processing 500K+ daily user interactions and increasing AOV from $63 to $64.29.",
+      image: "/medicine.webp?height=400&width=600",
+      category: "E-commerce",
+      link: "recommendation-engine",
+      type: "CaseStudy",
+    },
+    {
+      title: "Real-time Analytics Dashboard",
+      description:
+        "Built ETL pipelines and a BigQuery + Tableau dashboard to process 5GB of daily data, reducing decision-making time from 10 hours to 30 minutes.",
+      image: "/data_analytics.jpeg?height=400&width=600",
+      category: "Data Analytics",
+      link: "real-time-dashboard",
+      type: "CaseStudy",
+    },
+    {
+      title: "Blue Bike Usage Dashboard",
+      description:
+        "Created an interactive Tableau dashboard analyzing real-time usage trends for Blue Bikes, improving operational efficiency by 29%.",
+      image: "/bluebikes.png?height=400&width=600",
+      category: "Data Visualization",
+      link: "/bluebikes.pdf",
+    },
+    {
+      title: "Neural Network for Loan Prediction",
+      description:
+        "Designed a neural network to predict personal loan approvals with 97.2% test accuracy, visualized via confusion matrices and model diagrams.",
+      image: "/neural_net.avif?height=400&width=600",
+      category: "Machine Learning",
+      link: "loan-prediction",
+      type: "CaseStudy",
+    },
+    {
+      title: "Clustering Salary & Benefits Data",
+      description:
+        "Used k-means and hierarchical clustering for public employee salary analysis; results visualized with Elbow charts, scatterplots, and dendrograms.",
+      image: "/clustering.png?height=400&width=600",
+      category: "Machine Learning",
+      link: "salary-clustering",
+      type: "CaseStudy",
+    },
+    {
+      title: "Olist E-commerce Insights Dashboard",
+      description:
+        "Built a Tableau dashboard analyzing order volume, payment preferences, and customer satisfaction across Brazil. Revealed regional disparities in delivery delays and helped optimize logistics strategies.",
+      image: "/olist.jpeg?height=400&width=600",
+      category: "Data Visualization",
+      link: "/olist.pdf",
+    },
+    {
+      title: "Champion Customer Segmentation",
+      description:
+        "Performed RFM analysis using SAS on 20K+ customers for Champion's DTC channel. Identified 5 segments and proposed targeted retention and marketing strategies based on CLV and engagement.",
+      image: "/champion.png?height=400&width=600",
+      category: "Marketing Analytics",
+      link: "/behave.pdf",
+    },
+    {
+      title: "GoDaddy Predictive Modeling",
+      description:
+        "Built a CART model to predict GoDaddy's product likeness using advanced tuning and pruning. Achieved a MAPE of 10.67%, driving actionable insights for pricing and marketing decisions.",
+      image: "/godaddy.png?height=400&width=600",
+      category: "Machine Learning",
+      link: "/godaddy.pdf",
+    },
+    {
+      title: "NYT Topic Modeling with NLP",
+      description:
+        "Applied LDA topic modeling and text preprocessing on New York Times comments to identify themes and sentiment trends across reader discussions using Python and NLP techniques.",
+      image: "/NLP.jpeg?height=400&width=600",
+      category: "Natural Language Processing",
+      link: "/NLP.pdf",
+    },
+    {
+      title: "NYT Comment Scraper",
+      description:
+        "Developed a Python-based web scraper using BeautifulSoup and Selenium to extract NYT comments for NLP analysis. Managed dynamic content loading and anti-scraping challenges.",
+      image: "/beautifulsoup.png?height=400&width=600",
+      category: "Web Scraping",
+      link: "/WebScraping.pdf",
+    },
+    {
+      title: "Sentiment Analysis Using VADER (Harris vs. Trump)",
+      description:
+        "Analyzed tweet sentiment for Kamala Harris and Donald Trump using VADER, BERT, Flair, and TextBlob. Found that negative tweets drove the most engagement across both figures.",
+      image: "/sentiment.jpeg?height=400&width=600",
+      category: "Sentiment Analysis",
+      link: "/sentiment.pdf",
+    },
+  ];
+  
+export const experience = [
+    {
+      title: "Product Manager",
+      company: "Santo Remedio,India",
+      period: "Aug 2022 - Aug 2024 (2 years)",
+  
+      about:
+        "A leading Latin-American wellness brand expanding into DTC digital commerce.",
+      achievements: [
+        "Spearheaded cross-functional team of 12 to develop and execute e-commerce product strategy for Shopify and Amazon integration, driving $2.6M in revenue and 35% growth in customer base.",
+        "Implemented attribution modeling across 5 marketing channels, lowering CAC from $75 to $63 and improving LTV/CAC from 1.7 to 1.9.",
+        "Led ETL pipeline development and built real-time analytics dashboard using BigQuery and Tableau, reducing decision-making time from 10 hours to 30 minutes.",
+        "Constructed a recommendation engine using Association Rules, handling 500K+ daily user interactions and increasing AOV from $63 to $64.29.",
+        "Developed A/B testing framework and executed 9 tests, launching 4 features and improving conversion by 10% (2.2% to 2.42%).",
+      ],
+    },
+    {
+      title: "Senior Data Analyst",
+      company: "UNA Brands,India",
+      period: "Sep 2021 - Jul 2022 (1 year)",
+      about:
+        "A fast-growing e-commerce aggregator acquiring and scaling DTC brands across Asia.",
+      achievements: [
+        "Directed a team of 5 to architect a Unified Data Ecosystem using Celigo and PostgreSQL, reducing onboarding time for acquired brands by over 90%.",
+        "Defined KPIs, OKRs, and facilitated weekly sprints within a Scrum framework; authored PRDs to align cross-functional teams.",
+        "Deployed Jira for backlog and roadmap visibility, resulting in 30% improvement in project delivery time.",
+        "Achieved 24% product performance gain by leading UAT with stakeholders and prioritizing data-driven enhancements.",
+      ],
+    },
+    {
+      title: "Project Team Lead",
+      company: "NxtSuite Technologies,India",
+      period: "Apr 2020 - Sep 2021 (1.3 years)",
+  
+      about:
+        "A cloud consulting firm specializing in ERP and integration solutions for SMEs.",
+      achievements: [
+        "Managed 15 clients, leading end-to-end implementation of Order-to-Cash, Procure-to-Pay, and Inventory modules using Celigo and NetSuite ERP.",
+        "Led a team of 5 engineers to integrate NetSuite with third-party APIs, boosting operational efficiency by 40% and driving $200K in revenue.",
+        "Introduced Power BI-based Project Health Check (PHC) report to improve billing and resource allocation by 15%.",
+      ],
+    },
+    {
+      title: "Senior Software Engineer",
+      company: "Infosys, India and China",
+      period: "Nov 2016 - Mar 2020 (4 years)",
+  
+      about:
+        "A global technology consulting company serving Fortune 500 clients worldwide.",
+      achievements: [
+        "Architected SAP-PI solutions to support Lonza’s operations in 40+ EMEA and APAC regions.",
+        "Presented strategic recommendations to leadership, securing $1M in additional funding for European expansion.",
+      ],
+    },
+  ];

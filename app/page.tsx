@@ -11,6 +11,8 @@ import {
   MapPin,
   User,
   X,
+  Check,
+  Loader2,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
@@ -35,6 +37,9 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
 import {caseStudyContent, projects, experience} from "@/app/caseStudy"; // Importing case study content
 import ThreeBackground from "@/components/ThreeBackground"; // Import the 3D background
@@ -514,47 +519,45 @@ export default function Portfolio() {
             Get In Touch
           </motion.h2>
           <motion.div variants={itemVariants}>
-            <Card>
+            <Card className="overflow-hidden">
               <CardHeader>
                 <CardTitle>Contact Information</CardTitle>
                 <CardDescription>
                   Feel free to reach out for opportunities or just to say hello!
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <Mail className="h-5 w-5 text-muted-foreground flex-shrink-0" />
-                  <a
-                    href="mailto:akansha.akg19@gmail.com"
-                    className="hover:underline break-all"
-                  >
-                    akansha.akg19@gmail.com
-                  </a>
+              <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Contact Information */}
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3">
+                    <Mail className="h-5 w-5 text-muted-foreground flex-shrink-0" />
+                    <a
+                      href="mailto:akansha.akg19@gmail.com"
+                      className="hover:underline break-all"
+                    >
+                      akansha.akg19@gmail.com
+                    </a>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Linkedin className="h-5 w-5 text-muted-foreground flex-shrink-0" />
+                    <a
+                      href="https://www.linkedin.com/in/akanshasinha19/"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="hover:underline break-all"
+                    >
+                      linkedin.com/in/akanshasinha19
+                    </a>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <MapPin className="h-5 w-5 text-muted-foreground flex-shrink-0" />
+                    <span>Boston, MA (Open to Remote)</span>
+                  </div>
                 </div>
-                <div className="flex items-center gap-3">
-                  <Linkedin className="h-5 w-5 text-muted-foreground flex-shrink-0" />
-                  <a
-                    href="https://www.linkedin.com/in/akanshasinha19/"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="hover:underline break-all"
-                  >
-                    https://www.linkedin.com/in/akanshasinha19/
-                  </a>
-                </div>
-                <div className="flex items-center gap-3">
-                  <MapPin className="h-5 w-5 text-muted-foreground flex-shrink-0" />
-                  <span>Boston, MA (Open to Remote)</span>
-                </div>
+                
+                {/* Contact Form */}
+                <ContactForm />
               </CardContent>
-              <CardFooter>
-                <Button asChild className="w-full">
-                  <a href="mailto:akansha.akg19@gmail.com">
-                    <Mail className="mr-2 h-4 w-4" />
-                    Send Email
-                  </a>
-                </Button>
-              </CardFooter>
             </Card>
           </motion.div>
         </motion.section>
@@ -765,5 +768,152 @@ function ProjectCard({project, onOpenCaseStudy }) {
         </CardFooter>
       </Card>
     </motion.div>
+  );
+}
+
+function ContactForm() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+  const [isSending, setIsSending] = useState(false);
+  const [formStatus, setFormStatus] = useState<"idle" | "success" | "error">("idle");
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSending(true);
+    setFormStatus("idle");
+
+    try {
+      // Here you would typically send the email data to your backend
+      // For now, we'll simulate a successful submission
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      setFormStatus("success");
+      
+      // Reset form
+      setFormData({
+        name: "",
+        email: "",
+        subject: "",
+        message: ""
+      });
+    } catch (error) {
+      console.error("Error sending email:", error);
+      setFormStatus("error");
+    } finally {
+      setIsSending(false);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="space-y-2">
+        <Label htmlFor="name">Name</Label>
+        <Input
+          id="name"
+          name="name"
+          value={formData.name}
+          onChange={handleInputChange}
+          placeholder="Your name"
+          required
+          disabled={isSending}
+        />
+      </div>
+      
+      <div className="space-y-2">
+        <Label htmlFor="email">Email</Label>
+        <Input
+          id="email"
+          name="email"
+          type="email"
+          value={formData.email}
+          onChange={handleInputChange}
+          placeholder="your.email@example.com"
+          required
+          disabled={isSending}
+        />
+      </div>
+      
+      <div className="space-y-2">
+        <Label htmlFor="subject">Subject</Label>
+        <Input
+          id="subject"
+          name="subject"
+          value={formData.subject}
+          onChange={handleInputChange}
+          placeholder="Message subject"
+          required
+          disabled={isSending}
+        />
+      </div>
+      
+      <div className="space-y-2">
+        <Label htmlFor="message">Message</Label>
+        <Textarea
+          id="message"
+          name="message"
+          value={formData.message}
+          onChange={handleInputChange}
+          placeholder="Type your message here..."
+          required
+          disabled={isSending}
+          className="min-h-[120px]"
+        />
+      </div>
+      
+      {formStatus === "success" && (
+        <motion.div 
+          className="p-3 bg-green-100 dark:bg-green-900/20 border border-green-200 dark:border-green-900 rounded-md"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          <p className="text-green-800 dark:text-green-400 text-sm flex items-center gap-2">
+            <Check size={16} />
+            Your message has been sent. I'll get back to you soon!
+          </p>
+        </motion.div>
+      )}
+      
+      {formStatus === "error" && (
+        <motion.div 
+          className="p-3 bg-red-100 dark:bg-red-900/20 border border-red-200 dark:border-red-900 rounded-md"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          <p className="text-red-800 dark:text-red-400 text-sm flex items-center gap-2">
+            <X size={16} />
+            There was an error sending your message. Please try again.
+          </p>
+        </motion.div>
+      )}
+      
+      <Button 
+        type="submit" 
+        className="w-full"
+        disabled={isSending}
+      >
+        {isSending ? (
+          <>
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            Sending...
+          </>
+        ) : (
+          <>
+            <Mail className="mr-2 h-4 w-4" />
+            Send Message
+          </>
+        )}
+      </Button>
+    </form>
   );
 }

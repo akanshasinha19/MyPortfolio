@@ -15,6 +15,7 @@ import {
 import { useState, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import { motion } from "framer-motion";
+import dynamic from 'next/dynamic';
 
 import { Button } from "@/components/ui/button";
 import {
@@ -36,6 +37,10 @@ import {
 } from "@/components/ui/dialog";
 
 import {caseStudyContent, projects, experience} from "@/app/caseStudy"; // Importing case study content
+import ThreeBackground from "@/components/ThreeBackground"; // Import the 3D background
+
+// Import SkillGlobe dynamically with SSR disabled
+const SkillGlobe = dynamic(() => import('@/components/SkillGlobe'), { ssr: false });
 
 // Import necessary components for better markdown rendering
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -150,8 +155,11 @@ export default function Portfolio() {
 
       <main className="container max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-10">
         {/* Hero Section with animations */}
-        <section id="about" className="py-8 md:py-16">
-          <div className="grid gap-8 md:grid-cols-2 md:gap-12 items-center">
+        <section id="about" className="py-8 md:py-16 relative">
+          {/* Add the animated background */}
+          <ThreeBackground className="opacity-50" />
+          
+          <div className="grid gap-8 md:grid-cols-2 md:gap-12 items-center relative z-10">
             <motion.div 
               className="flex flex-col justify-center space-y-4"
               initial={{ opacity: 0, x: -30 }}
@@ -240,7 +248,7 @@ export default function Portfolio() {
 
         {/* Skills Section with animations */}
         <motion.section 
-          className="py-8 md:py-12"
+          className="py-8 md:py-12 relative"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
@@ -252,6 +260,25 @@ export default function Portfolio() {
           >
             My Skills & Expertise
           </motion.h2>
+          
+          {/* Add the 3D skill globe */}
+          <motion.div
+            variants={itemVariants}
+            className="mb-8"
+          >
+            <SkillGlobe skills={[
+              "Product Strategy", 
+              "Data Analysis", 
+              "Leadership", 
+              "Agile & Scrum", 
+              "SQL", 
+              "Market Research", 
+              "Wireframing",
+              "A/B Testing",
+              "Roadmapping"
+            ]} />
+          </motion.div>
+          
           <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
             {/* Wrap each Card in motion.div */}
             <motion.div variants={itemVariants}>

@@ -159,9 +159,7 @@ export default function Portfolio() {
       <main className="container max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-10">
         {/* Hero Section with animations */}
         <section id="about" className="py-8 md:py-16 relative">
-          {/* Add the animated background */}
-          <ThreeBackground className="opacity-50" />
-          
+
           <div className="grid gap-8 md:grid-cols-2 md:gap-12 items-center relative z-0">
             <motion.div 
               className="flex flex-col justify-center space-y-4"

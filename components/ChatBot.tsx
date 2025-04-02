@@ -28,7 +28,13 @@ interface EmailFormData {
 const initialMessages: Message[] = [
   {
     id: 1,
-    text: "Hi there! 👋 I'm Akansha's virtual assistant. How can I help you today?",
+    text: "Hello there! 👋 It's nice to meet you!",
+    sender: "bot",
+    timestamp: new Date(),
+  },
+  {
+    id: 2,
+    text: "I'm Akansha's virtual assistant. How can I help you today?",
     sender: "bot",
     timestamp: new Date(),
   },
@@ -71,10 +77,32 @@ export default function ChatBot() {
     }
   }, [isOpen]);
 
+  // Show attention pointer again after 30 seconds if chat is closed
+  useEffect(() => {
+    if (!isOpen && !showAttentionPointer) {
+      const timer = setTimeout(() => {
+        setShowAttentionPointer(true);
+      }, 30000); // 30 seconds
+      
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen, showAttentionPointer]);
+
   // Auto scroll to bottom when messages update
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  // Auto hide attention bubble after 8 seconds if not interacted with
+  useEffect(() => {
+    if (showAttentionPointer) {
+      const timer = setTimeout(() => {
+        setShowAttentionPointer(false);
+      }, 8000); // 8 seconds instead of 5
+      
+      return () => clearTimeout(timer);
+    }
+  }, [showAttentionPointer]);
 
   const toggleChat = () => {
     setIsOpen(!isOpen);
@@ -238,36 +266,49 @@ export default function ChatBot() {
 
   return (
     <>
-      {/* Chat toggle button */}
+      {/* Chat toggle button with attention bubble */}
       <motion.div
-        className="fixed bottom-5 right-5 z-50" // Removed conflicting "relative" class
+        className="fixed bottom-5 right-5 z-50"
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ type: "spring", stiffness: 260, damping: 20 }}
       >
-        {/* Attention pointer message bubble */}
+        {/* Attention bubble */}
         <AnimatePresence>
           {showAttentionPointer && !isOpen && (
-            <motion.div
-              className="absolute -top-16 right-0 bg-primary text-primary-foreground p-3 rounded-lg shadow-lg max-w-[200px]"
+            <motion.div 
+              className="absolute bottom-16 right-0 bg-primary text-primary-foreground rounded-xl px-4 py-3 shadow-lg"
               initial={{ opacity: 0, scale: 0.8, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.8, y: 10 }}
-              transition={{ delay: 1 }}
+              transition={{ type: "spring", stiffness: 500, damping: 40 }}
+              style={{ width: "max-content", maxWidth: "220px" }}
             >
-              <div className="text-sm font-medium">
-                👋 Need help? Ask me anything!
+              <div className="relative">
+                <p className="text-sm font-medium">Hello there! 👋</p>
+                <p className="text-xs mt-1">Chat with me to learn more about Akansha!</p>
+                
+                {/* Triangle pointer - positioned at bottom instead of right */}
+                <div className="absolute bottom-0 right-6 transform translate-y-full -translate-x-1/2 w-0 h-0 
+                                border-l-[8px] border-r-[8px] border-t-[8px] border-b-0 
+                                border-solid border-l-transparent border-r-transparent border-t-primary"></div>
+                
+                {/* Pulsing dot animation */}
+                <motion.div
+                  className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"
+                  animate={{ scale: [1, 1.5, 1] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                />
               </div>
-              {/* Triangle pointer at bottom */}
-              <div className="absolute bottom-[-8px] right-[18px] w-4 h-4 bg-primary rotate-45" />
             </motion.div>
           )}
         </AnimatePresence>
-        
+
         <Button
           onClick={toggleChat}
           className="h-14 w-14 rounded-full shadow-lg"
           variant={isOpen ? "destructive" : "default"}
+          aria-label={isOpen ? "Close chat" : "Open chat"}
         >
           {isOpen ? <X size={24} /> : <MessageCircle size={24} />}
         </Button>
@@ -277,22 +318,22 @@ export default function ChatBot() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className="fixed bottom-24 right-5 z-50 w-80 sm:w-96 md:w-[400px] h-96 rounded-lg shadow-xl flex flex-col overflow-hidden bg-background border"
+            className="fixed bottom-24 right-5 z-50 w-80 sm:w-96 md:w-[400px] h-[450px] rounded-lg shadow-xl flex flex-col overflow-hidden bg-background border"
             initial={{ opacity: 0, y: 20, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
             transition={{ duration: 0.2 }}
           >
             {/* Chat header */}
-            <div className="p-3 border-b bg-muted/50 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Avatar className="h-8 w-8">
+            <div className="p-4 border-b bg-muted/50 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <Avatar className="h-9 w-9">
                   <AvatarImage src="/akansha.PNG" alt="Akansha" />
                   <AvatarFallback>AS</AvatarFallback>
                 </Avatar>
                 <div>
                   <h3 className="font-semibold text-sm">Chat with Akansha</h3>
-                  <p className="text-xs text-muted-foreground">Ask me anything</p>
+                  <p className="text-xs text-muted-foreground">Ask me about my work & experience</p>
                 </div>
               </div>
               <Button variant="ghost" size="sm" className="h-8 w-8 p-0" onClick={toggleChat}>
@@ -301,7 +342,7 @@ export default function ChatBot() {
             </div>
 
             {/* Chat messages */}
-            <div className="flex-1 overflow-y-auto p-3 space-y-4">
+            <div className="flex-1 overflow-y-auto p-4 space-y-5">
               {modelLoading && (
                 <motion.div
                   className="flex justify-center w-full mb-2"
@@ -346,9 +387,9 @@ export default function ChatBot() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <div className="flex items-end gap-2 max-w-[80%]">
+                  <div className="flex items-end gap-2 max-w-[85%]">
                     {message.sender === "bot" && (
-                      <Avatar className="h-6 w-6">
+                      <Avatar className="h-7 w-7">
                         <AvatarImage src="/akansha.PNG" alt="Akansha" />
                         <AvatarFallback>
                           <Bot size={14} />
@@ -356,19 +397,19 @@ export default function ChatBot() {
                       </Avatar>
                     )}
                     
-                    <Card className={`p-2 px-3 text-sm ${
+                    <Card className={`p-3 px-3.5 text-sm ${
                       message.sender === "user" 
                         ? "bg-primary text-primary-foreground" 
-                        : "bg-muted"
+                        : "bg-muted/80"
                     }`}>
                       {message.text}
-                      <div className="text-[10px] opacity-70 mt-1 text-right">
+                      <div className="text-[10px] opacity-70 mt-1.5 text-right">
                         {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </div>
                     </Card>
                     
                     {message.sender === "user" && (
-                      <Avatar className="h-6 w-6">
+                      <Avatar className="h-7 w-7">
                         <AvatarFallback>
                           <User size={14} />
                         </AvatarFallback>
@@ -547,12 +588,13 @@ export default function ChatBot() {
             </div>
 
             {/* Chat input */}
-            <form onSubmit={handleSendMessage} className="p-3 border-t flex items-center gap-2">
+            <form onSubmit={handleSendMessage} className="p-4 border-t flex items-center gap-2">
               <Input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Type your message..."
                 className="flex-1"
+                autoComplete="off"
               />
               <Button type="submit" size="icon" disabled={!input.trim()}>
                 <Send size={16} />

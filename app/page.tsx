@@ -426,7 +426,10 @@ export default function Portfolio() {
                   .filter(
                     (p) =>
                       p.category === "Machine Learning" ||
-                      p.category === "Natural Language Processing",
+                      p.category === "Natural Language Processing" ||
+                      p.category === "Web Scraping" ||
+                      p.category === "Sentiment Analysis"
+                      ,
                   )
                   .map((project, index) => (
                     <motion.div key={index} variants={itemVariants}>

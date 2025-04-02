@@ -44,6 +44,7 @@ import { Textarea } from "@/components/ui/textarea";
 import {caseStudyContent, projects, experience} from "@/app/caseStudy"; // Importing case study content
 import ThreeBackground from "@/components/ThreeBackground"; // Import the 3D background
 import ChatBot from "@/components/ChatBot"; // Import the ChatBot component
+import GoogleAnalytics from "@/components/GoogleAnalytics"; // Import the GoogleAnalytics component
 
 // Import necessary components for better markdown rendering
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -98,6 +99,9 @@ export default function Portfolio() {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Add Google Analytics */}
+      <GoogleAnalytics />
+      
       {/* Header with animation */}
       <motion.header 
         className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"

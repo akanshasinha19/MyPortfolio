@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, X, Send, User, Bot, Mail, Loader2 } from "lucide-react";
+import { MessageCircle, X, Send, User, Bot, Mail, Loader2, Paperclip, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -21,6 +21,7 @@ interface Message {
 interface EmailFormData {
   name: string;
   email: string;
+  subject: string;
   message: string;
 }
 
@@ -43,9 +44,11 @@ export default function ChatBot() {
   const [emailData, setEmailData] = useState<EmailFormData>({
     name: "",
     email: "",
+    subject: "",
     message: "",
   });
   const [isSending, setIsSending] = useState(false);
+  const [emailSent, setEmailSent] = useState(false);
   
   // WebLLM state
   const [model, setModel] = useState<ChatModule | null>(null);
@@ -58,7 +61,6 @@ export default function ChatBot() {
     if (isOpen && !model && !modelLoading && !modelError) {
     }
   }, [isOpen, model, modelLoading, modelError]);
-
 
   // Auto scroll to bottom when messages update
   useEffect(() => {
@@ -81,7 +83,7 @@ export default function ChatBot() {
       return;
     }
 
-    // Add user message
+    // Add user messaw
     const userMessage: Message = {
       id: messages.length + 1,
       text: input,
@@ -163,6 +165,7 @@ export default function ChatBot() {
       setMessages(prev => [...prev, botMessage]);
       setIsTyping(false);
       setShowEmailForm(true);
+      setEmailSent(false); // Reset email sent state
     }, 1000);
   };
 
@@ -182,23 +185,33 @@ export default function ChatBot() {
       // For now, we'll simulate a successful submission
       await new Promise(resolve => setTimeout(resolve, 1500));
       
-      // Add confirmation message
-      const botMessage: Message = {
-        id: messages.length + 1,
-        text: `Thanks ${emailData.name}! Your message has been sent to Akansha. She'll get back to you at ${emailData.email} soon.`,
-        sender: "bot",
-        timestamp: new Date(),
-      };
+      setEmailSent(true);
       
-      setMessages(prev => [...prev, botMessage]);
-      setShowEmailForm(false);
+      // Add confirmation message after a short delay to show the animation
+      setTimeout(() => {
+        const botMessage: Message = {
+          id: messages.length + 1,
+          text: `Thanks ${emailData.name}! Your message has been sent to Akansha. She'll get back to you at ${emailData.email} soon.`,
+          sender: "bot",
+          timestamp: new Date(),
+        };
+        
+        setMessages(prev => [...prev, botMessage]);
+        
+        // Hide the email form after another short delay
+        setTimeout(() => {
+          setShowEmailForm(false);
+          
+          // Reset form
+          setEmailData({
+            name: "",
+            email: "",
+            subject: "",
+            message: ""
+          });
+        }, 1000);
+      }, 1500);
       
-      // Reset form
-      setEmailData({
-        name: "",
-        email: "",
-        message: ""
-      });
     } catch (error) {
       // Handle errors
       const errorMessage: Message = {
@@ -208,6 +221,7 @@ export default function ChatBot() {
         timestamp: new Date(),
       };
       setMessages(prev => [...prev, errorMessage]);
+      setEmailSent(false);
     } finally {
       setIsSending(false);
     }
@@ -367,75 +381,136 @@ export default function ChatBot() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <Card className="p-3 w-full bg-muted/30">
-                    <form onSubmit={submitEmail} className="space-y-3">
-                      <div className="flex items-center justify-between">
-                        <h3 className="font-medium text-sm">Get In Touch</h3>
-                        <Button 
-                          type="button" 
-                          variant="ghost" 
-                          size="sm" 
-                          className="h-6 w-6 p-0"
-                          onClick={() => setShowEmailForm(false)}
-                        >
-                          <X size={12} />
-                        </Button>
-                      </div>
-                      
-                      <div className="space-y-2">
-                        <div>
-                          <Label htmlFor="name" className="text-xs">Name</Label>
-                          <Input
-                            id="name"
-                            name="name"
-                            value={emailData.name}
-                            onChange={handleEmailChange}
-                            placeholder="Your name"
-                            required
-                            className="h-8 text-sm"
-                          />
+                  <Card className="p-3 w-full bg-card border shadow-md">
+                    {!emailSent ? (
+                      <form onSubmit={submitEmail} className="space-y-3">
+                        <div className="flex items-center justify-between border-b pb-2">
+                          <div className="flex items-center gap-2">
+                            <Mail className="h-4 w-4 text-primary" />
+                            <h3 className="font-medium text-sm">New Message</h3>
+                          </div>
+                          <Button 
+                            type="button" 
+                            variant="ghost" 
+                            size="sm" 
+                            className="h-6 w-6 p-0"
+                            onClick={() => setShowEmailForm(false)}
+                          >
+                            <X size={12} />
+                          </Button>
                         </div>
                         
-                        <div>
-                          <Label htmlFor="email" className="text-xs">Email</Label>
-                          <Input
-                            id="email"
-                            name="email"
-                            type="email"
-                            value={emailData.email}
-                            onChange={handleEmailChange}
-                            placeholder="Your email"
-                            required
-                            className="h-8 text-sm"
-                          />
+                        <div className="space-y-3">
+                          <div className="flex items-center gap-2 border-b pb-2">
+                            <Label htmlFor="to" className="text-xs font-medium w-16">To:</Label>
+                            <div className="flex-1 text-xs text-muted-foreground">akansha.akg19@gmail.com</div>
+                          </div>
+                          
+                          <div className="flex items-center gap-2 border-b pb-2">
+                            <Label htmlFor="from" className="text-xs font-medium w-16">From:</Label>
+                            <Input
+                              id="email"
+                              name="email"
+                              type="email"
+                              value={emailData.email}
+                              onChange={handleEmailChange}
+                              placeholder="your.email@example.com"
+                              required
+                              className="h-7 text-xs border-0 p-0 focus-visible:ring-0"
+                            />
+                          </div>
+                          
+                          <div className="flex items-center gap-2 border-b pb-2">
+                            <Label htmlFor="name" className="text-xs font-medium w-16">Name:</Label>
+                            <Input
+                              id="name"
+                              name="name"
+                              value={emailData.name}
+                              onChange={handleEmailChange}
+                              placeholder="Your name"
+                              required
+                              className="h-7 text-xs border-0 p-0 focus-visible:ring-0"
+                            />
+                          </div>
+                          
+                          <div className="flex items-center gap-2 border-b pb-2">
+                            <Label htmlFor="subject" className="text-xs font-medium w-16">Subject:</Label>
+                            <Input
+                              id="subject"
+                              name="subject"
+                              value={emailData.subject}
+                              onChange={handleEmailChange}
+                              placeholder="Message subject"
+                              required
+                              className="h-7 text-xs border-0 p-0 focus-visible:ring-0"
+                            />
+                          </div>
+                          
+                          <div className="pt-1">
+                            <Textarea
+                              id="message"
+                              name="message"
+                              value={emailData.message}
+                              onChange={handleEmailChange}
+                              placeholder="Type your message here..."
+                              required
+                              className="text-xs min-h-[80px] resize-none border-0 focus-visible:ring-0 p-0"
+                            />
+                          </div>
                         </div>
                         
-                        <div>
-                          <Label htmlFor="message" className="text-xs">Message</Label>
-                          <Textarea
-                            id="message"
-                            name="message"
-                            value={emailData.message}
-                            onChange={handleEmailChange}
-                            placeholder="Your message"
-                            required
-                            className="text-sm min-h-[80px] resize-none"
-                          />
+                        <div className="flex justify-between items-center pt-1">
+                          <Button 
+                            type="button" 
+                            variant="ghost" 
+                            size="sm"
+                            className="text-xs h-8 px-2"
+                          >
+                            <Paperclip size={12} className="mr-1" />
+                            Attach
+                          </Button>
+                          
+                          <Button 
+                            type="submit" 
+                            size="sm"
+                            disabled={isSending}
+                            className="text-xs h-8 px-3 flex gap-2 items-center"
+                          >
+                            {isSending ? (
+                              <>
+                                <Loader2 size={12} className="animate-spin" />
+                                Sending...
+                              </>
+                            ) : (
+                              <>
+                                <Send size={12} />
+                                Send Email
+                              </>
+                            )}
+                          </Button>
                         </div>
-                      </div>
-                      
-                      <div className="flex justify-end">
-                        <Button 
-                          type="submit" 
-                          size="sm"
-                          disabled={isSending}
-                          className="text-xs flex gap-2 items-center"
+                      </form>
+                    ) : (
+                      <motion.div 
+                        className="flex flex-col items-center justify-center py-6"
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        transition={{ duration: 0.5, type: "spring" }}
+                      >
+                        <motion.div 
+                          className="bg-primary text-primary-foreground rounded-full p-3 mb-4"
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          transition={{ delay: 0.2, type: "spring" }}
                         >
-                          {isSending ? 'Sending...' : 'Send Message'}
-                          <Mail size={14} />
-                        </Button>
-                      </div>
-                    </form>
+                          <Check size={24} />
+                        </motion.div>
+                        <h3 className="text-lg font-semibold mb-1">Email Sent!</h3>
+                        <p className="text-sm text-center text-muted-foreground">
+                          Your message has been sent to Akansha.
+                        </p>
+                      </motion.div>
+                    )}
                   </Card>
                 </motion.div>
               )}

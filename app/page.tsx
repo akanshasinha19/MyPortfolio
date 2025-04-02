@@ -38,6 +38,7 @@ import {
 
 import {caseStudyContent, projects, experience} from "@/app/caseStudy"; // Importing case study content
 import ThreeBackground from "@/components/ThreeBackground"; // Import the 3D background
+import ChatBot from "@/components/ChatBot"; // Import the ChatBot component
 
 // Import necessary components for better markdown rendering
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -644,6 +645,9 @@ export default function Portfolio() {
           )}
         </DialogContent>
       </Dialog>
+      
+      {/* Add the ChatBot component */}
+      <ChatBot />
       
       {/* Footer with animations */}
       <motion.footer 

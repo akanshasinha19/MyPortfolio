@@ -254,3 +254,56 @@ export const experience = [
       ],
     },
   ];
+
+export const promptData = `
+# Welcome to My Product & Data Portfolio  
+**Hi, I'm Akansha Sinha** — a Product Manager and Business Analytics professional with over 8 years of experience building data-driven solutions at the intersection of product, operations, and technology. My journey spans across e-commerce, wellness, and tech consulting, where I’ve consistently led initiatives that transformed ambiguity into action, scaled products from concept to reality, and delivered measurable business impact.
+
+My background bridges the technical and the strategic. I began my career as a software engineer at Infosys, architecting SAP-PI solutions for global clients. Over the years, I’ve evolved into a cross-functional product leader who can talk to engineers, align with marketers, and empathize with end users — all while building systems that drive growth, efficiency, and insight.
+
+---
+
+## 💼 Case Study Highlights
+
+### 🛍 **E-commerce Marketplace Integration**  
+As Product Manager at Santo Remedio, I led the company's first major expansion beyond its own website by launching integrated stores on Amazon and Shopify. The challenge? We had no infrastructure for multichannel commerce, and our internal ERP (NetSuite) wasn’t connected to any external platforms. I drove end-to-end product delivery — from stakeholder discovery and service design to backlog management, UAT, and post-launch analytics. Using Celigo middleware, we implemented real-time, bidirectional data flows across inventory, orders, fulfillment, and returns.  
+**Result:** $2.6M in new revenue, 40% increase in customer base, and zero additional headcount added to operations. This project didn’t just unlock a channel — it transformed the company into a scalable, platform-ready brand.
+
+### 🧠 **Recommendation Engine for Product Boost**  
+Customer journey analysis at Santo Remedio revealed a huge opportunity: most users browsed multiple products but bought only one. I designed a rule-based recommendation engine using Association Rule Mining, mining co-purchase data to surface high-confidence product pairings. I scoped and shipped an MVP that generated dynamic suggestions in real time — on PDPs, in the cart, and after checkout. We A/B tested different placements and messaging while building in configurability for non-technical teams.  
+**Result:** Boosted Average Order Value from $63 to $64.29 and laid the groundwork for advanced personalization strategies using interaction data. The real win? We turned a passive catalog into an active, intelligent shopping assistant.
+
+### 📈 **Real-time Analytics Dashboard**  
+Before this initiative, Santo Remedio was flying blind. Marketing, ops, and finance teams were making critical decisions using static spreadsheets and outdated exports. I led the end-to-end design of a real-time business intelligence platform powered by BigQuery and Tableau, ingesting 5GB+ of data daily from tools like Shopify, Facebook Ads, NetSuite, and Google Analytics. I mapped stakeholder needs into user stories, architected ETL pipelines, and designed custom dashboards tailored to each persona — whether it was an analyst optimizing CAC, or an exec monitoring retention trends.  
+**Result:** Reduced time-to-insight from 10 hours to under 30 minutes, streamlined decision-making, and shifted the company culture toward data-first thinking.
+
+---
+
+## 🔍 Other Notable Projects
+
+- **Blue Bike Usage Dashboard**: Built a Tableau dashboard visualizing public bike usage patterns in Boston, which helped optimize operations and increased efficiency by 29%.  
+- **Loan Prediction Neural Network**: Designed a neural net achieving 97.2% accuracy on personal loan approvals; included confusion matrix visualization and hyperparameter tuning.  
+- **Salary Data Clustering**: Applied k-means and hierarchical clustering on public sector salary and benefits data to uncover job segmentation and regional compensation gaps.  
+- **RFM-Based Customer Segmentation**: Conducted RFM analysis for Champion’s DTC business, identifying high-value customer segments and informing loyalty campaigns.  
+- **GoDaddy Demand Forecasting**: Built a CART model to predict product preferences, achieving a MAPE of 10.67% and guiding pricing strategy.  
+- **NYT Topic Modeling**: Used LDA and text preprocessing to extract themes from thousands of NYT reader comments and visualize shifts in sentiment over time.  
+- **Political Sentiment Analysis**: Compared tweet sentiment for Harris and Trump using VADER, BERT, and Flair — revealing that negative tweets drew more engagement across both.  
+- **Web Scraping Engine**: Developed a Selenium + BeautifulSoup scraper to extract NYT comments at scale, handling dynamic content and anti-bot mechanisms.
+
+---
+
+## 🔧 My Superpowers
+
+- **Product Thinking with a Technical Edge**: I understand APIs, databases, and infrastructure, but always build with user pain points in mind.
+- **Full-Stack Analytics**: From ETL pipelines to dashboard design, I create systems that deliver timely insights and scalable visibility.
+- **Cross-Functional Leadership**: I’ve led agile squads, coordinated with engineers and marketers, and driven adoption through change management and storytelling.
+- **Lean Innovation**: I believe in shipping fast, learning faster, and iterating with intent. MVPs aren't shortcuts — they’re launchpads.
+- **Platform Integration & Ops Scaling**: My work with Celigo, NetSuite, and multichannel commerce has enabled businesses to grow without operational chaos.
+
+---
+
+## 🎓 Currently...
+
+I’m pursuing my **Master’s in Business Analytics at Babson College**, where I’m deepening my statistical modeling and storytelling skills. I also serve as the **Co-VP of the Babson Analytics Club**, where I collaborate with peers to explore industry trends and build hands-on data products.
+
+---`;

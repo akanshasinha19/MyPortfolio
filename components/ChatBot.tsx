@@ -2,14 +2,16 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, X, Send, User, Bot, Mail, Loader2, Paperclip, Check } from "lucide-react";
+import { MessageCircle, X, Send, User, Bot, Mail, Loader2, Paperclip, Check, HelpCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { ChatModule } from "@mlc-ai/web-llm";
+
+import ollamaService from "@/services/ollama";
+import { findRelevantAnswer, generateConversationStarters } from "@/utils/textUtils";
 
 interface Message {
   id: number;
@@ -25,6 +27,9 @@ interface EmailFormData {
   message: string;
 }
 
+// Get conversation starters
+const conversationStarters = generateConversationStarters();
+
 const initialMessages: Message[] = [
   {
     id: 1,
@@ -35,6 +40,12 @@ const initialMessages: Message[] = [
   {
     id: 2,
     text: "I'm Akansha's virtual assistant. How can I help you today?",
+    sender: "bot",
+    timestamp: new Date(),
+  },
+  {
+    id: 3,
+    text: "You can ask me about Akansha's projects, experience, or skills.",
     sender: "bot",
     timestamp: new Date(),
   },
@@ -55,20 +66,28 @@ export default function ChatBot() {
   });
   const [isSending, setIsSending] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
-  // Add state for the attention pointer
   const [showAttentionPointer, setShowAttentionPointer] = useState(true);
   
-  // WebLLM state
-  const [model, setModel] = useState<ChatModule | null>(null);
-  const [modelLoading, setModelLoading] = useState(false);
-  const [loadingProgress, setLoadingProgress] = useState(0);
-  const [modelError, setModelError] = useState<string | null>(null);
+  // State for suggested questions
+  const [showSuggestedQuestions, setShowSuggestedQuestions] = useState(true);
+  
+  // State for current conversation starters
+  const [currentStarters, setCurrentStarters] = useState<string[]>([]);
+  
+  // State for hint timers and indicators
+  const [hintTimer, setHintTimer] = useState<NodeJS.Timeout | null>(null);
+  const [hintShown, setHintShown] = useState(false);
+  
+  // Current partial response for streaming
+  const [currentStreamingResponse, setCurrentStreamingResponse] = useState("");
+  const streamControllerRef = useRef<AbortController | null>(null);
 
-  // Initialize WebLLM when the chat opens
+  // On initial load, select random conversation starters
   useEffect(() => {
-    if (isOpen && !model && !modelLoading && !modelError) {
-    }
-  }, [isOpen, model, modelLoading, modelError]);
+    // Shuffle and pick 3 random conversation starters
+    const shuffled = [...conversationStarters].sort(() => 0.5 - Math.random());
+    setCurrentStarters(shuffled.slice(0, 3));
+  }, []);
 
   // Hide the attention pointer when chat is opened
   useEffect(() => {
@@ -91,26 +110,87 @@ export default function ChatBot() {
   // Auto scroll to bottom when messages update
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  }, [messages, currentStreamingResponse]);
 
   // Auto hide attention bubble after 8 seconds if not interacted with
   useEffect(() => {
     if (showAttentionPointer) {
       const timer = setTimeout(() => {
         setShowAttentionPointer(false);
-      }, 8000); // 8 seconds instead of 5
+      }, 8000);
       
       return () => clearTimeout(timer);
     }
   }, [showAttentionPointer]);
 
+  // Add a helpful hint after 3 seconds of inactivity when chat is opened
+  useEffect(() => {
+    if (isOpen && messages.length <= 3 && !hintShown && !hintTimer) {
+      const timer = setTimeout(() => {
+        const randomStarter = conversationStarters[Math.floor(Math.random() * conversationStarters.length)];
+        const botMessage: Message = {
+          id: messages.length + 1,
+          text: `You can ask me questions like: "${randomStarter}"`,
+          sender: "bot",
+          timestamp: new Date(),
+        };
+        setMessages(prev => [...prev, botMessage]);
+        setHintShown(true);
+      }, 3000);
+      
+      setHintTimer(timer);
+      
+      return () => {
+        if (hintTimer) clearTimeout(hintTimer);
+      };
+    }
+  }, [isOpen, messages.length, hintShown, hintTimer]);
+
   const toggleChat = () => {
     setIsOpen(!isOpen);
+    
+    // Show suggested questions when chat is first opened
+    if (!isOpen) {
+      setShowSuggestedQuestions(true);
+      setHintShown(false); // Reset hint shown state when reopening chat
+      
+      // Shuffle and pick new conversation starters
+      const shuffled = [...conversationStarters].sort(() => 0.5 - Math.random());
+      setCurrentStarters(shuffled.slice(0, 3));
+    } else {
+      // Cancel any ongoing streams when closing the chat
+      if (streamControllerRef.current) {
+        streamControllerRef.current.abort();
+        streamControllerRef.current = null;
+      }
+    }
+  };
+
+  const handleSuggestedQuestionClick = (question: string) => {
+    setInput(question);
+    
+    // Submit the form programmatically
+    const form = document.getElementById('chatForm') as HTMLFormElement;
+    if (form) {
+      form.dispatchEvent(new Event('submit', { cancelable: true }));
+    }
   };
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim()) return;
+    
+    // Clear any pending hint timers when user sends a message
+    if (hintTimer) {
+      clearTimeout(hintTimer);
+      setHintTimer(null);
+    }
+    
+    // Cancel any ongoing streams
+    if (streamControllerRef.current) {
+      streamControllerRef.current.abort();
+      streamControllerRef.current = null;
+    }
 
     // Check if user wants to get in touch
     if (input.toLowerCase().includes("contact") || 
@@ -120,7 +200,7 @@ export default function ChatBot() {
       return;
     }
 
-    // Add user messaw
+    // Add user message
     const userMessage: Message = {
       id: messages.length + 1,
       text: input,
@@ -130,50 +210,96 @@ export default function ChatBot() {
     setMessages([...messages, userMessage]);
     setInput("");
     
-    // Simulate bot typing
+    // Hide suggested questions once user starts interacting
+    setShowSuggestedQuestions(false);
+    
+    // Set typing indicator
     setIsTyping(true);
+    setCurrentStreamingResponse(""); // Clear any previous streaming content
 
-    try {
-      let responseText = "";
+    // First check for pre-defined answers
+    const predefinedAnswer = findRelevantAnswer(input);
+    
+    if (predefinedAnswer) {
+      // Simulate typing for predefined answers with a realistic delay
+      const typingDelay = Math.min(predefinedAnswer.length * 10, 2000);
       
-      // Use WebLLM if available
-      if (model) {
-        const response = await model.generate(input, { max_gen_len: 256 });
-        responseText = response.trim();
-      } else {
-        // Fallback to predefined responses
-        const botResponses = [
-          "Thanks for reaching out! Akansha will get back to you soon.",
-          "I'd be happy to tell you more about Akansha's work.",
-          "Great question! Akansha specializes in product management and analytics.",
-          "Would you like to see Akansha's portfolio projects?",
-          "You can contact Akansha directly at akansha.akg19@gmail.com",
-        ];
-        responseText = botResponses[Math.floor(Math.random() * botResponses.length)];
+      setTimeout(() => {
+        const botMessage: Message = {
+          id: messages.length + 2,
+          text: predefinedAnswer,
+          sender: "bot",
+          timestamp: new Date(),
+        };
+        
+        setMessages(prev => [...prev, botMessage]);
+        setIsTyping(false);
+      }, typingDelay);
+    } else {
+      // Use Ollama streaming API for dynamic responses
+      try {
+        const controller = new AbortController();
+        streamControllerRef.current = controller;
+        
+        const stream = ollamaService.generateCompletionStream(input);
+        const reader = stream.getReader();
+        
+        let accumulatedResponse = "";
+        
+        // Process the stream
+        const processStream = async () => {
+          try {
+            while (true) {
+              const { done, value } = await reader.read();
+              
+              if (done || controller.signal.aborted) {
+                break;
+              }
+              
+              // Decode the chunk and append to accumulated response
+              const text = new TextDecoder().decode(value);
+              accumulatedResponse += text;
+              setCurrentStreamingResponse(accumulatedResponse);
+            }
+            
+            // Only add the full message when streaming is complete and not aborted
+            if (!controller.signal.aborted) {
+              const botMessage: Message = {
+                id: messages.length + 2,
+                text: accumulatedResponse,
+                sender: "bot",
+                timestamp: new Date(),
+              };
+              
+              setMessages(prev => [...prev, botMessage]);
+              setCurrentStreamingResponse("");
+            }
+            
+          } catch (error) {
+            console.error('Error reading stream:', error);
+          } finally {
+            if (!controller.signal.aborted) {
+              setIsTyping(false);
+              streamControllerRef.current = null;
+            }
+          }
+        };
+        
+        processStream();
+        
+      } catch (error) {
+        console.error("Error generating response:", error);
+        
+        const errorMessage: Message = {
+          id: messages.length + 2,
+          text: "Sorry, I'm having trouble responding right now. Please try again.",
+          sender: "bot",
+          timestamp: new Date(),
+        };
+        
+        setMessages(prev => [...prev, errorMessage]);
+        setIsTyping(false);
       }
-
-      const botMessage: Message = {
-        id: messages.length + 2,
-        text: responseText,
-        sender: "bot",
-        timestamp: new Date(),
-      };
-      
-      setMessages(prev => [...prev, botMessage]);
-    } catch (error) {
-      console.error("Error generating response:", error);
-      
-      // Error handling response
-      const errorMessage: Message = {
-        id: messages.length + 2,
-        text: "Sorry, I'm having trouble responding right now. Please try again.",
-        sender: "bot",
-        timestamp: new Date(),
-      };
-      
-      setMessages(prev => [...prev, errorMessage]);
-    } finally {
-      setIsTyping(false);
     }
   };
 
@@ -187,6 +313,9 @@ export default function ChatBot() {
     };
     setMessages([...messages, userMessage]);
     setInput("");
+    
+    // Hide suggested questions
+    setShowSuggestedQuestions(false);
     
     // Simulate bot typing
     setIsTyping(true);
@@ -343,42 +472,6 @@ export default function ChatBot() {
 
             {/* Chat messages */}
             <div className="flex-1 overflow-y-auto p-4 space-y-5">
-              {modelLoading && (
-                <motion.div
-                  className="flex justify-center w-full mb-2"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                >
-                  <Card className="p-3 bg-muted/30 w-full">
-                    <div className="flex flex-col items-center gap-2">
-                      <div className="flex items-center gap-2">
-                        <Loader2 className="h-4 w-4 animate-spin" />
-                        <p className="text-sm font-medium">Loading AI assistant...</p>
-                      </div>
-                      <div className="w-full bg-muted rounded-full h-2">
-                        <div
-                          className="bg-primary h-2 rounded-full transition-all"
-                          style={{ width: `${loadingProgress}%` }}
-                        />
-                      </div>
-                      <p className="text-xs text-muted-foreground">{loadingProgress}%</p>
-                    </div>
-                  </Card>
-                </motion.div>
-              )}
-
-              {modelError && (
-                <motion.div
-                  className="flex justify-center w-full mb-2"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                >
-                  <Card className="p-3 bg-destructive/10 w-full">
-                    <p className="text-sm text-destructive text-center">{modelError}</p>
-                  </Card>
-                </motion.div>
-              )}
-
               {messages.map((message) => (
                 <motion.div
                   key={message.id}
@@ -419,7 +512,31 @@ export default function ChatBot() {
                 </motion.div>
               ))}
 
-              {isTyping && (
+              {/* Streaming response */}
+              {currentStreamingResponse && (
+                <motion.div
+                  className="flex justify-start"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                >
+                  <div className="flex items-end gap-2 max-w-[85%]">
+                    <Avatar className="h-7 w-7">
+                      <AvatarImage src="/akansha.PNG" alt="Akansha" />
+                      <AvatarFallback>
+                        <Bot size={14} />
+                      </AvatarFallback>
+                    </Avatar>
+                    
+                    <Card className="p-3 px-3.5 text-sm bg-muted/80">
+                      {currentStreamingResponse}
+                      <div className="inline-block ml-1 animate-pulse">▌</div>
+                    </Card>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* Typing indicator (only show when not streaming) */}
+              {isTyping && !currentStreamingResponse && (
                 <motion.div
                   className="flex justify-start"
                   initial={{ opacity: 0 }}
@@ -442,7 +559,35 @@ export default function ChatBot() {
                   </div>
                 </motion.div>
               )}
+              
+              {/* Suggested questions */}
+              {showSuggestedQuestions && (
+                <motion.div
+                  className="flex flex-col gap-2 mt-3"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                >
+                  <div className="flex items-center gap-1.5 text-xs text-muted-foreground mb-1">
+                    <HelpCircle size={12} /> 
+                    <span>Try asking about:</span>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {currentStarters.map((question, index) => (
+                      <Button
+                        key={index}
+                        variant="outline"
+                        size="sm"
+                        className="text-xs py-1 h-auto border-dashed hover:bg-muted/60 transition-colors"
+                        onClick={() => handleSuggestedQuestionClick(question)}
+                      >
+                        {question}
+                      </Button>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
 
+              {/* Email form */}
               {showEmailForm && (
                 <motion.div
                   className="flex justify-start w-full"
@@ -588,16 +733,28 @@ export default function ChatBot() {
             </div>
 
             {/* Chat input */}
-            <form onSubmit={handleSendMessage} className="p-4 border-t flex items-center gap-2">
+            <form id="chatForm" onSubmit={handleSendMessage} className="p-4 border-t flex items-center gap-2">
               <Input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Type your message..."
                 className="flex-1"
                 autoComplete="off"
+                onFocus={() => {
+                  // Clear hint timer if user focuses on input
+                  if (hintTimer) {
+                    clearTimeout(hintTimer);
+                    setHintTimer(null);
+                  }
+                }}
               />
-              <Button type="submit" size="icon" disabled={!input.trim()}>
-                <Send size={16} />
+              <Button 
+                type="submit" 
+                size="icon" 
+                disabled={!input.trim() || isTyping}
+                className="transition-all hover:bg-primary/90"
+              >
+                {isTyping ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} />}
               </Button>
             </form>
           </motion.div>

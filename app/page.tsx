@@ -138,6 +138,12 @@ export default function Portfolio() {
                 Experience
               </Link>
               <Link
+                href="#certifications"
+                className="transition-colors hover:text-foreground/80"
+              >
+                Certifications
+              </Link>
+              <Link
                 href="#contact"
                 className="transition-colors hover:text-foreground/80"
               >
@@ -321,6 +327,8 @@ export default function Portfolio() {
           </div>
         </motion.section>
 
+        
+
         {/* Projects Section with animations */}
         <motion.section 
           id="projects" 
@@ -502,6 +510,230 @@ export default function Portfolio() {
                 </Card>
               </motion.div>
             ))}
+          </div>
+        </motion.section>
+
+        {/* Achievements & Certifications Section */}
+        <motion.section 
+          id="certifications" 
+          className="py-12 md:py-16"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={containerVariants}
+        >
+          <motion.div variants={itemVariants}>
+            <div className="flex items-center justify-between mb-8">
+              <h2 className="text-2xl md:text-3xl font-bold tracking-tight">Achievements & Certifications</h2>
+              <Badge variant="outline" className="px-3 py-1">
+                <span className="text-sm font-medium">Professional Development</span>
+              </Badge>
+            </div>
+          </motion.div>
+          
+          <div className="space-y-10">
+            {/* LinkedIn Technical Product Management */}
+            <motion.div 
+              variants={itemVariants}
+              className="group"
+            >
+              <Card className="overflow-hidden border border-muted hover:border-muted-foreground/50 shadow-sm hover:shadow-md transition-all duration-300">
+                <div className="grid md:grid-cols-[250px_1fr] lg:grid-cols-[300px_1fr]">
+                  {/* Left column - Logo and image */}
+                  <div className="flex flex-col justify-center items-center p-8 border-r border-border bg-card/50">
+                    <div className="w-24 h-24 bg-background rounded-full flex items-center justify-center shadow-md mb-6 border border-border">
+                      <Image 
+                        src="https://media.licdn.com/dms/image/v2/C560BAQHaVYd13rRz3A/company-logo_100_100/company-logo_100_100/0/1638831590218/linkedin_logo?e=1749081600&v=beta&t=lCMZmx-E2v1gJXD_vjHGoTp_0oj2IyFVFcQ_8udsvbI" 
+                        alt="LinkedIn" 
+                        width={48} 
+                        height={48} 
+                        className="object-contain"
+                      />
+                    </div>
+                    <Badge className="mb-2 px-3 py-1">LinkedIn</Badge>
+                  </div>
+                  
+                  {/* Right column - Certificate details */}
+                  <div className="p-6 md:p-8">
+                    <div className="space-y-4">
+                      <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-2">
+                        <div>
+                          <h3 className="text-xl md:text-2xl font-bold">Technical Product Management</h3>
+                          <p className="text-muted-foreground">Industry-recognized credential for technical product skills</p>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <motion.div
+                            initial={{ opacity: 0.8, scale: 0.95 }}
+                            whileHover={{ opacity: 1, scale: 1 }}
+                            className="bg-background border border-border rounded-md py-1 px-3 text-foreground font-medium flex items-center gap-2"
+                          >
+                            <span className="block h-2 w-2 rounded-full bg-primary"></span>
+                            Issued Mar 2025
+                          </motion.div>
+                        </div>
+                      </div>
+                      
+                      <div className="pt-2">
+                        <p className="text-sm font-medium text-muted-foreground mb-3">SKILLS CERTIFIED:</p>
+                        <div className="flex flex-wrap gap-2">
+                          <Badge variant="secondary" className="px-3 py-1">Technical Product Management</Badge>
+                          <Badge variant="secondary" className="px-3 py-1">Product Strategy</Badge>
+                          <Badge variant="secondary" className="px-3 py-1">Technical Leadership</Badge>
+                        </div>
+                      </div>
+                      
+                      <div className="pt-4">
+                        <Button variant="outline" size="sm" className="group" asChild>
+                          <Link href="https://www.linkedin.com/in/akanshasinha19/" target="_blank"
+                            className="flex items-center gap-2 transition-all"
+                          >
+                            Verify Credential
+                            <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
+                          </Link>
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            </motion.div>
+            
+            {/* Babson College Foundations of AI */}
+            <motion.div 
+              variants={itemVariants}
+              className="group"
+            >
+              <Card className="overflow-hidden border border-muted hover:border-muted-foreground/50 shadow-sm hover:shadow-md transition-all duration-300">
+                <div className="grid md:grid-cols-[250px_1fr] lg:grid-cols-[300px_1fr]">
+                  {/* Left column - Logo and image */}
+                  <div className="flex flex-col justify-center items-center p-8 border-r border-border bg-card/50">
+                    <div className="w-24 h-24 bg-background rounded-full flex items-center justify-center shadow-md mb-6 border border-border">
+                      <Image 
+                        src="https://media.badgr.com/uploads/badges/assertion-T6_6bvHPSXGwqmPWHkT9Ow.png?versionId=PHfUBIaz4TLYF5HmTTS_hpvI2K09h22f" 
+                        alt="Babson College" 
+                        width={64} 
+                        height={64} 
+                        className="object-contain"
+                      />
+                    </div>
+                    <Badge className="mb-2 px-3 py-1">Babson College</Badge>
+                  </div>
+                  
+                  {/* Right column - Certificate details */}
+                  <div className="p-6 md:p-8">
+                    <div className="space-y-4">
+                      <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-2">
+                        <div>
+                          <h3 className="text-xl md:text-2xl font-bold">Foundations of AI</h3>
+                          <p className="text-muted-foreground">Comprehensive training in artificial intelligence fundamentals</p>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <motion.div
+                            initial={{ opacity: 0.8, scale: 0.95 }}
+                            whileHover={{ opacity: 1, scale: 1 }}
+                            className="bg-background border border-border rounded-md py-1 px-3 text-foreground font-medium flex items-center gap-2"
+                          >
+                            <span className="block h-2 w-2 rounded-full bg-primary"></span>
+                            Issued Feb 2025
+                          </motion.div>
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <p className="text-sm font-medium text-muted-foreground mb-1">CREDENTIAL ID:</p>
+                        <p className="text-sm font-mono bg-muted px-3 py-1 rounded-md inline-block">67bca35a7f1f8152ca076d40</p>
+                      </div>
+                      
+                      <div className="pt-2">
+                        <p className="text-sm font-medium text-muted-foreground mb-3">SKILLS CERTIFIED:</p>
+                        <div className="flex flex-wrap gap-2">
+                          <Badge variant="secondary" className="px-3 py-1">Artificial Intelligence for Business</Badge>
+                          <Badge variant="secondary" className="px-3 py-1">Artificial Intelligence (AI)</Badge>
+                          <Badge variant="secondary" className="px-3 py-1">Machine Learning</Badge>
+                        </div>
+                      </div>
+                      
+                      <div className="pt-4">
+                        <Button variant="outline" size="sm" className="group" asChild>
+                          <Link href="https://www.babson.edu" target="_blank"
+                            className="flex items-center gap-2 transition-all"
+                          >
+                            Verify Credential
+                            <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
+                          </Link>
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            </motion.div>
+            
+            {/* LinkedIn AI and Business Strategy */}
+            <motion.div 
+              variants={itemVariants}
+              className="group"
+            >
+              <Card className="overflow-hidden border border-muted hover:border-muted-foreground/50 shadow-sm hover:shadow-md transition-all duration-300">
+                <div className="grid md:grid-cols-[250px_1fr] lg:grid-cols-[300px_1fr]">
+                  {/* Left column - Logo and image */}
+                  <div className="flex flex-col justify-center items-center p-8 border-r border-border bg-card/50">
+                    <div className="w-24 h-24 bg-background rounded-full flex items-center justify-center shadow-md mb-6 border border-border">
+                      <Image 
+                        src="https://media.licdn.com/dms/image/v2/C560BAQHaVYd13rRz3A/company-logo_100_100/company-logo_100_100/0/1638831590218/linkedin_logo?e=1749081600&v=beta&t=lCMZmx-E2v1gJXD_vjHGoTp_0oj2IyFVFcQ_8udsvbI" 
+                        alt="LinkedIn" 
+                        width={48} 
+                        height={48} 
+                        className="object-contain"
+                      />
+                    </div>
+                    <Badge className="mb-2 px-3 py-1">LinkedIn</Badge>
+                  </div>
+                  
+                  {/* Right column - Certificate details */}
+                  <div className="p-6 md:p-8">
+                    <div className="space-y-4">
+                      <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-2">
+                        <div>
+                          <h3 className="text-xl md:text-2xl font-bold">AI and Business Strategy: Case Studies</h3>
+                          <p className="text-muted-foreground">Advanced applications of AI in strategic business contexts</p>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <motion.div
+                            initial={{ opacity: 0.8, scale: 0.95 }}
+                            whileHover={{ opacity: 1, scale: 1 }}
+                            className="bg-background border border-border rounded-md py-1 px-3 text-foreground font-medium flex items-center gap-2"
+                          >
+                            <span className="block h-2 w-2 rounded-full bg-primary"></span>
+                            Issued Sep 2024
+                          </motion.div>
+                        </div>
+                      </div>
+                      
+                      <div className="pt-2">
+                        <p className="text-sm font-medium text-muted-foreground mb-3">SKILLS CERTIFIED:</p>
+                        <div className="flex flex-wrap gap-2">
+                          <Badge variant="secondary" className="px-3 py-1">Business Strategy</Badge>
+                          <Badge variant="secondary" className="px-3 py-1">Artificial Intelligence for Business</Badge>
+                          <Badge variant="secondary" className="px-3 py-1">Strategic Planning</Badge>
+                        </div>
+                      </div>
+                      
+                      <div className="pt-4">
+                        <Button variant="outline" size="sm" className="group" asChild>
+                          <Link href="https://www.linkedin.com/in/akanshasinha19/" target="_blank"
+                            className="flex items-center gap-2 transition-all"
+                          >
+                            Verify Credential
+                            <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
+                          </Link>
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            </motion.div>
           </div>
         </motion.section>
 

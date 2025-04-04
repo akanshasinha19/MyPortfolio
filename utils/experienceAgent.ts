@@ -209,7 +209,7 @@ export class ExperienceAgent {
    * Provide information about Akansha's education
    */
   private getEducationInformation(query_lower: string): string {
-    let response = `Akansha is currently pursuing her MS in Business Analytics at Babson College. `;
+    let response = `## Education\n\nAkansha is currently pursuing her MS in Business Analytics at Babson College. `;
     
     // Add more details based on specific question types
     if (query_lower.includes("babson")) {
@@ -219,7 +219,7 @@ export class ExperienceAgent {
     } else if (query_lower.includes("why") || query_lower.includes("reason")) {
       response += `She chose to pursue an MS in Business Analytics to enhance her data-driven product management skills and gain deeper expertise in analytics that she can apply to solve complex business problems.`;
     } else if (query_lower.includes("course") || query_lower.includes("class")) {
-      response += `Her coursework includes data visualization, machine learning, business intelligence, statistical modeling, and analytics strategy. She's particularly interested in applying these skills to solve real-world business problems.`;
+      response += `Her coursework includes:\n\n- Data visualization\n- Machine learning\n- Business intelligence\n- Statistical modeling\n- Analytics strategy\n\nShe's particularly interested in applying these skills to solve real-world business problems.`;
     } else {
       response += `She's focusing on advanced analytics and data-driven product management. Before this, she completed her undergraduate degree in Engineering, which provided a strong technical foundation for her career.`;
     }
@@ -231,14 +231,18 @@ export class ExperienceAgent {
    * Format an experience item into a readable answer
    */
   private formatExperienceAnswer(job: typeof experience[0]): string {
-    const achievements = job.achievements.map(a => `• ${a}`).join('\n');
+    const achievements = job.achievements.map(a => `- ${a}`).join('\n');
     
     return `
-At ${job.company} (${job.period}), Akansha worked as a ${job.title}.
+## Experience at ${job.company}
 
-About the company: ${job.about}
+**Role:** ${job.title}  
+**Period:** ${job.period}
 
-Key achievements:
+### About the company
+${job.about}
+
+### Key achievements
 ${achievements}
 `.trim();
   }
@@ -248,9 +252,11 @@ ${achievements}
    */
   private generateExperienceSummary(): string {
     return `
+## Professional Experience
+
 Akansha has a diverse professional background with over 8 years of experience. Her career includes:
 
-${experience.map(job => `• ${job.title} at ${job.company} (${job.period})`).join('\n')}
+${experience.map(job => `- **${job.title}** at ${job.company} (${job.period})`).join('\n')}
 
 Her most recent role was Product Manager at Santo Remedio, where she led e-commerce integrations and data analytics initiatives. Would you like more details about any specific role?
 `.trim();
@@ -263,9 +269,11 @@ Her most recent role was Product Manager at Santo Remedio, where she led e-comme
     const highlightedProjects = projects.slice(0, 3); // Just top 3 projects
     
     return `
+## Notable Projects
+
 Akansha has worked on several notable projects, including:
 
-${highlightedProjects.map(project => `• ${project.title}: ${project.description}`).join('\n\n')}
+${highlightedProjects.map(project => `### ${project.title}\n\n${project.description}`).join('\n\n')}
 
 Would you like more information about any specific project?
 `.trim();
@@ -276,7 +284,14 @@ Would you like more information about any specific project?
    */
   private generateGenericExperienceAnswer(): string {
     return `
-Akansha has over 8 years of experience in product management and data analytics. She has worked at companies like Santo Remedio (Product Manager), UNA Brands (Senior Data Analyst), NxtSuite Technologies (Project Team Lead), and Infosys (Senior Software Engineer).
+## Akansha's Professional Background
+
+Akansha has over 8 years of experience in product management and data analytics. She has worked at companies like:
+
+- **Santo Remedio** - Product Manager
+- **UNA Brands** - Senior Data Analyst
+- **NxtSuite Technologies** - Project Team Lead
+- **Infosys** - Senior Software Engineer
 
 Her expertise includes e-commerce platform integration, data pipeline development, recommendation systems, and analytics dashboards. She's skilled in tools like Tableau, BigQuery, NetSuite, Celigo, and various project management methodologies.
 
@@ -295,7 +310,7 @@ Would you like to know more about her specific roles, projects, or technical ski
     const situation = situationMatch ? situationMatch[1].trim() : '';
     const result = resultMatch ? resultMatch[1].trim() : '';
     
-    return `Situation: ${situation.slice(0, 200)}...\n\nResult: ${result.slice(0, 200)}...\n\n(This is a summary. Ask for more details if needed.)`;
+    return `### Situation\n${situation.slice(0, 200)}...\n\n### Result\n${result.slice(0, 200)}...\n\n*(This is a summary. Ask for more details if needed.)*`;
   }
 }
 

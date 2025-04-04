@@ -26,7 +26,7 @@ interface OllamaCompletionResponse {
 
 class OllamaService {
   private readonly endpoint: string = 'https://ollama.penify.life/ollama/api/chat';
-  private readonly defaultModel: string = 'qwen2.5-coder';
+  private readonly defaultModel: string = 'gemma3';
   private isApiAvailable: boolean = true;
   
   /**
@@ -60,10 +60,12 @@ class OllamaService {
             {
               role: "user",
               content: prompt
+            },{
+              role: "system",
+              content: "You are Akansha's AI assistant. Be helpful, concise, and friendly. Provide information about Akansha's experience, projects, and skills based on her portfolio. Format your responses using markdown for better readability - use headings, bullet points, bold, and links where appropriate. If the user asks for a specific project, provide details about that project. If the user asks for a skill, provide details about that skill. If the user asks for contact information, provide Akansha's email address. If the user asks for education, provide details about Akansha's education. If the user asks for experience, provide details about Akansha's work experience. If the user asks for a portfolio, provide details about Akansha's portfolio. If the user asks for a resume, provide details about Akansha's resume. If the user asks for a CV, provide details about Akansha's CV. If the user asks for a cover letter, provide details about Akansha's cover letter. If the user asks for a LinkedIn profile, provide details about Akansha's LinkedIn profile. If the user asks for a GitHub profile, provide details about Akansha's GitHub profile. If the user asks for a personal website, provide details about Akansha's personal website. If the user asks for a blog, provide details about Akansha's blog. If they ask irrelevant questions, provide a generic response.",
             }
           ],
           stream: false,
-          system: "You are Akansha's AI assistant. Be helpful, concise, and friendly. Provide information about Akansha's experience, projects, and skills based on her portfolio.",
         }),
       });
 
@@ -104,7 +106,7 @@ class OllamaService {
         }
       ],
       stream: true,
-      system: "You are Akansha's AI assistant. Be helpful, concise, and friendly. Provide information about Akansha's experience, projects, and skills based on her portfolio.",
+      system: "You are Akansha's AI assistant. Be helpful, concise, and friendly. Provide information about Akansha's experience, projects, and skills based on her portfolio. Format your responses using markdown for better readability - use headings, bullet points, bold, and links where appropriate.",
     };
 
     // Reference to track API availability
@@ -246,27 +248,27 @@ class OllamaService {
         promptLower.includes("degree") ||
         promptLower.includes("university") ||
         promptLower.includes("babson")) {
-      return "Akansha is currently pursuing her MS in Business Analytics at Babson College, which she started in 2023. She's focusing on advanced analytics, data visualization, machine learning, and statistical modeling. Before this, she completed her undergraduate degree in Engineering.";
+      return "## Education\n\nAkansha is currently pursuing her **MS in Business Analytics** at Babson College, which she started in 2023. She's focusing on:\n\n- Advanced analytics\n- Data visualization\n- Machine learning\n- Statistical modeling\n\nBefore this, she completed her undergraduate degree in Engineering.";
     }
     
     if (promptLower.includes("experience") || promptLower.includes("work")) {
-      return "Akansha has over 8 years of experience in product management and data analytics. She worked at Santo Remedio as a Product Manager, UNA Brands as a Senior Data Analyst, and has experience with various technologies including Tableau, BigQuery, and NetSuite.";
+      return "## Professional Experience\n\nAkansha has over **8 years of experience** in product management and data analytics. Her career includes:\n\n- **Product Manager** at Santo Remedio\n- **Senior Data Analyst** at UNA Brands\n- Experience with various technologies including Tableau, BigQuery, and NetSuite";
     }
     
     if (promptLower.includes("project") || promptLower.includes("portfolio")) {
-      return "Akansha has worked on several notable projects including an E-commerce Marketplace Integration that generated $2.6M in revenue, a Recommendation Engine that increased AOV, and a Real-time Analytics Dashboard that reduced decision-making time from 10 hours to 30 minutes.";
+      return "## Notable Projects\n\nAkansha has worked on several impactful projects:\n\n- **E-commerce Marketplace Integration** that generated $2.6M in revenue\n- **Recommendation Engine** that increased Average Order Value\n- **Real-time Analytics Dashboard** that reduced decision-making time from 10 hours to 30 minutes";
     }
     
     if (promptLower.includes("contact") || promptLower.includes("email")) {
-      return "You can contact Akansha at akansha.akg19@gmail.com to discuss opportunities or ask questions about her work.";
+      return "## Contact Information\n\nYou can reach Akansha at **akansha.akg19@gmail.com** to discuss opportunities or ask questions about her work.";
     }
     
     if (promptLower.includes("skill") || promptLower.includes("tech")) {
-      return "Akansha's technical skills include data analytics (SQL, Python, R), visualization tools (Tableau, Power BI), cloud platforms (AWS, GCP), ERP systems (NetSuite), integration platforms (Celigo), and project management methodologies (Agile/Scrum).";
+      return "## Technical Skills\n\nAkansha's expertise includes:\n\n- **Data Analytics**: SQL, Python, R\n- **Visualization Tools**: Tableau, Power BI\n- **Cloud Platforms**: AWS, GCP\n- **ERP Systems**: NetSuite\n- **Integration Platforms**: Celigo\n- **Project Management**: Agile/Scrum methodologies";
     }
     
-    // Default fallback response
-    return "I'm currently having trouble connecting to my knowledge base. Akansha is a Product Manager with experience in data analytics, e-commerce integrations, and building recommendation systems. She's currently pursuing her MS in Business Analytics at Babson College. For more specific information, you can ask about her education, projects, experience, or skills.";
+    // Default fallback response with markdown
+    return "## About Akansha\n\nI'm currently having trouble connecting to my knowledge base. Akansha is a **Product Manager** with experience in:\n\n- Data analytics\n- E-commerce integrations\n- Building recommendation systems\n\nShe's currently pursuing her MS in Business Analytics at Babson College. For more specific information, you can ask about her education, projects, experience, or skills.";
   }
   
   /**

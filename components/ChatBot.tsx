@@ -9,6 +9,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
+import ReactMarkdown from "react-markdown";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { oneDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 
 import ollamaService from "@/services/ollama";
 import { findRelevantAnswer, generateConversationStarters } from "@/utils/textUtils";
@@ -393,6 +396,49 @@ export default function ChatBot() {
     }
   };
 
+  // Helper function to render markdown content
+  const renderMarkdown = (content: string) => {
+    return (
+      <ReactMarkdown
+        components={{
+          p: ({ node, ...props }) => <p className="mb-2 last:mb-0" {...props} />,
+          a: ({ node, ...props }) => <a className="text-primary underline hover:text-primary/80" target="_blank" rel="noopener noreferrer" {...props} />,
+          ul: ({ node, ...props }) => <ul className="list-disc pl-5 mb-2" {...props} />,
+          ol: ({ node, ...props }) => <ol className="list-decimal pl-5 mb-2" {...props} />,
+          li: ({ node, ...props }) => <li className="mb-1" {...props} />,
+          h1: ({ node, ...props }) => <h1 className="text-lg font-bold mb-2" {...props} />,
+          h2: ({ node, ...props }) => <h2 className="text-md font-bold mb-2" {...props} />,
+          h3: ({ node, ...props }) => <h3 className="text-sm font-bold mb-1" {...props} />,
+          code: ({ node, inline, className, children, ...props }) => {
+            const match = /language-(\w+)/.exec(className || '');
+            return !inline && match ? (
+              <SyntaxHighlighter
+                style={oneDark}
+                language={match[1]}
+                PreTag="div"
+                customStyle={{ 
+                  borderRadius: "4px", 
+                  fontSize: "0.75rem", 
+                  marginTop: "0.5rem", 
+                  marginBottom: "0.5rem" 
+                }}
+                {...props}
+              >
+                {String(children).replace(/\n$/, '')}
+              </SyntaxHighlighter>
+            ) : (
+              <code className="bg-muted px-1 py-0.5 rounded text-xs" {...props}>
+                {children}
+              </code>
+            );
+          }
+        }}
+      >
+        {content}
+      </ReactMarkdown>
+    );
+  };
+
   return (
     <>
       {/* Chat toggle button with attention bubble */}
@@ -495,7 +541,10 @@ export default function ChatBot() {
                         ? "bg-primary text-primary-foreground" 
                         : "bg-muted/80"
                     }`}>
-                      {message.text}
+                      {message.sender === "bot" 
+                        ? renderMarkdown(message.text)
+                        : message.text
+                      }
                       <div className="text-[10px] opacity-70 mt-1.5 text-right">
                         {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </div>
@@ -512,7 +561,7 @@ export default function ChatBot() {
                 </motion.div>
               ))}
 
-              {/* Streaming response */}
+              {/* Streaming response with Markdown support */}
               {currentStreamingResponse && (
                 <motion.div
                   className="flex justify-start"
@@ -528,7 +577,7 @@ export default function ChatBot() {
                     </Avatar>
                     
                     <Card className="p-3 px-3.5 text-sm bg-muted/80">
-                      {currentStreamingResponse}
+                      {renderMarkdown(currentStreamingResponse)}
                       <div className="inline-block ml-1 animate-pulse">▌</div>
                     </Card>
                   </div>

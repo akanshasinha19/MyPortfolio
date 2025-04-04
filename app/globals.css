@@ -92,3 +92,37 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+/* Markdown styling */
+.markdown-content table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.8rem;
+  margin: 0.5rem 0;
+}
+
+.markdown-content th,
+.markdown-content td {
+  border: 1px solid hsl(var(--border));
+  padding: 0.25rem 0.5rem;
+  text-align: left;
+}
+
+.markdown-content th {
+  background-color: hsl(var(--muted));
+  font-weight: 600;
+}
+
+.markdown-content blockquote {
+  border-left: 3px solid hsl(var(--border));
+  padding-left: 0.75rem;
+  margin: 0.5rem 0;
+  color: hsl(var(--muted-foreground));
+  font-style: italic;
+}
+
+.markdown-content hr {
+  border: 0;
+  border-top: 1px solid hsl(var(--border));
+  margin: 0.75rem 0;
+}

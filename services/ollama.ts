@@ -25,7 +25,7 @@ interface OllamaCompletionResponse {
 }
 
 class OllamaService {
-  private readonly endpoint: string = 'https://ollama.penify.life/ollama/api/chat';
+  private readonly endpoint: string = 'https://ollama.penify.xyz/ollama/api/chat';
   private readonly defaultModel: string = 'gemma3';
   private isApiAvailable: boolean = true;
   

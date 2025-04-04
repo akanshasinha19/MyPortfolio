@@ -256,54 +256,67 @@ export const experience = [
   ];
 
 export const promptData = `
-# Welcome to My Product & Data Portfolio  
-**Hi, I'm Akansha Sinha** — a Product Manager and Business Analytics professional with over 8 years of experience building data-driven solutions at the intersection of product, operations, and technology. My journey spans across e-commerce, wellness, and tech consulting, where I’ve consistently led initiatives that transformed ambiguity into action, scaled products from concept to reality, and delivered measurable business impact.
+Resume link : https://www.akansha.info/Resume.pdf
 
-My background bridges the technical and the strategic. I began my career as a software engineer at Infosys, architecting SAP-PI solutions for global clients. Over the years, I’ve evolved into a cross-functional product leader who can talk to engineers, align with marketers, and empathize with end users — all while building systems that drive growth, efficiency, and insight.
-
----
-
-## 💼 Case Study Highlights
-
-### 🛍 **E-commerce Marketplace Integration**  
-As Product Manager at Santo Remedio, I led the company's first major expansion beyond its own website by launching integrated stores on Amazon and Shopify. The challenge? We had no infrastructure for multichannel commerce, and our internal ERP (NetSuite) wasn’t connected to any external platforms. I drove end-to-end product delivery — from stakeholder discovery and service design to backlog management, UAT, and post-launch analytics. Using Celigo middleware, we implemented real-time, bidirectional data flows across inventory, orders, fulfillment, and returns.  
-**Result:** $2.6M in new revenue, 40% increase in customer base, and zero additional headcount added to operations. This project didn’t just unlock a channel — it transformed the company into a scalable, platform-ready brand.
-
-### 🧠 **Recommendation Engine for Product Boost**  
-Customer journey analysis at Santo Remedio revealed a huge opportunity: most users browsed multiple products but bought only one. I designed a rule-based recommendation engine using Association Rule Mining, mining co-purchase data to surface high-confidence product pairings. I scoped and shipped an MVP that generated dynamic suggestions in real time — on PDPs, in the cart, and after checkout. We A/B tested different placements and messaging while building in configurability for non-technical teams.  
-**Result:** Boosted Average Order Value from $63 to $64.29 and laid the groundwork for advanced personalization strategies using interaction data. The real win? We turned a passive catalog into an active, intelligent shopping assistant.
-
-### 📈 **Real-time Analytics Dashboard**  
-Before this initiative, Santo Remedio was flying blind. Marketing, ops, and finance teams were making critical decisions using static spreadsheets and outdated exports. I led the end-to-end design of a real-time business intelligence platform powered by BigQuery and Tableau, ingesting 5GB+ of data daily from tools like Shopify, Facebook Ads, NetSuite, and Google Analytics. I mapped stakeholder needs into user stories, architected ETL pipelines, and designed custom dashboards tailored to each persona — whether it was an analyst optimizing CAC, or an exec monitoring retention trends.  
-**Result:** Reduced time-to-insight from 10 hours to under 30 minutes, streamlined decision-making, and shifted the company culture toward data-first thinking.
-
----
-
-## 🔍 Other Notable Projects
-
-- **Blue Bike Usage Dashboard**: Built a Tableau dashboard visualizing public bike usage patterns in Boston, which helped optimize operations and increased efficiency by 29%.  
-- **Loan Prediction Neural Network**: Designed a neural net achieving 97.2% accuracy on personal loan approvals; included confusion matrix visualization and hyperparameter tuning.  
-- **Salary Data Clustering**: Applied k-means and hierarchical clustering on public sector salary and benefits data to uncover job segmentation and regional compensation gaps.  
-- **RFM-Based Customer Segmentation**: Conducted RFM analysis for Champion’s DTC business, identifying high-value customer segments and informing loyalty campaigns.  
-- **GoDaddy Demand Forecasting**: Built a CART model to predict product preferences, achieving a MAPE of 10.67% and guiding pricing strategy.  
-- **NYT Topic Modeling**: Used LDA and text preprocessing to extract themes from thousands of NYT reader comments and visualize shifts in sentiment over time.  
-- **Political Sentiment Analysis**: Compared tweet sentiment for Harris and Trump using VADER, BERT, and Flair — revealing that negative tweets drew more engagement across both.  
-- **Web Scraping Engine**: Developed a Selenium + BeautifulSoup scraper to extract NYT comments at scale, handling dynamic content and anti-bot mechanisms.
-
----
-
-## 🔧 My Superpowers
-
-- **Product Thinking with a Technical Edge**: I understand APIs, databases, and infrastructure, but always build with user pain points in mind.
-- **Full-Stack Analytics**: From ETL pipelines to dashboard design, I create systems that deliver timely insights and scalable visibility.
-- **Cross-Functional Leadership**: I’ve led agile squads, coordinated with engineers and marketers, and driven adoption through change management and storytelling.
-- **Lean Innovation**: I believe in shipping fast, learning faster, and iterating with intent. MVPs aren't shortcuts — they’re launchpads.
-- **Platform Integration & Ops Scaling**: My work with Celigo, NetSuite, and multichannel commerce has enabled businesses to grow without operational chaos.
-
----
-
-## 🎓 Currently...
-
-I’m pursuing my **Master’s in Business Analytics at Babson College**, where I’m deepening my statistical modeling and storytelling skills. I also serve as the **Co-VP of the Babson Analytics Club**, where I collaborate with peers to explore industry trends and build hands-on data products.
-
+AKANSHA SINHA
+Babson College | +8575404843 | akansha.akg19@gmail.com | http://www.linkedin.com/in/akanshasinha19
+EDUCATION
+BABSON COLLEGE, F.W. OLIN GRADUATE SCHOOL OF BUSINESS, Wellesley, MA August 2024 - May 2025
+MS in Business Analytics Candidate
+• Artificial Intelligence, Deep Learning, Data Analytics, Advanced Python, Reinforcement Learning
+UTTAR PRADESH TECHNICAL UNIVERSITY, India June 2012 - June 2016
+B. Tech, Information Technology
+7.34/10.
+EXPERIENCE
+Santo Remedio, Bangalore August 2022 - August 2024
+Product Manager - 2 Years
+• Led cross-functional team of twelve to develop and execute e-commerce product strategy for Shopify and Amazon
+marketplace integration, resulting in $2.6M revenue increase and 35% growth in customer base over 2 years.
+• Implemented attribution modeling across 5 marketing channels, diminishing CAC(Customer Acquisition Cost) from $75 to
+$63 while increasing (Customer's Lifetime Value)LTV/CAC ratio from 1.7 to 1.9.
+• Initiated data decision making by leading team to build ETL pipelines processing 5GB daily data and architecting real-time
+analytics dashboard using BigQuery and Tableau, reducing decision-making time from 10 hours to 30 mins.
+• Spearheaded a team of engineers to develop recommendation engine using Association Rules, processing 500K daily user
+interactions, boosting AOV(Average Order Value) from $63 to $64.29.
+• Built A/B Test framework executing 9 tests, generating 4 features and lifted conversion by 10% (from 2.2% to 2.42%).
+UNA Brands, Bangalore September 2021 - July 2022
+Senior Data Analyst - 1 Year
+• Led a team of five to architect Unified Data Ecosystem using Celigo and PostgreSQL. Streamlined multi-brand data
+integration, reducing onboarding time by more than 90% for acquired e-commerce businesses.
+• Defined business metrics, KPIs, and OKRs, facilitated weekly sprints within a Scrum framework, and developed product
+requirement documents to align teams and drive strategic goals.
+• Introduced Jira for backlog management and roadmap visibility, resulting in 30% improvement in project delivery times.
+• Collaborated with stakeholders during UAT to validate product features and prioritize enhancements based on user
+feedback.
+NxtSuite Technologies, Pune April 2020 - September 2021
+Project Team Lead - 1.3 Years
+• Managed 15 clients, overseeing end-to-end implementation of Order-to-Cash, Procure-to-Pay, and Inventory Management
+modules using Celigo and NetSuite ERP.
+• Led a team of five engineers to integrate NetSuite with third-party APIs, optimizing operational efficiency by 40% and
+driving $200K in revenue growth.
+• Initiated the Project Health Check (PHC) report using Power BI to analyze Invoiced milestones, Billing events, and
+expenses, helping managers with revenue, billing, and enhancing resource allocation by 15%.
+Infosys, Pune November 2016 - March 2020
+Senior Software Engineer - 4 Years
+• Architected SAP-PI (Process Integration) solutions to support Lonza’s operations across 40+ regions in EMEA and APAC.
+• Presented strategic recommendations to leadership, securing $1M in additional funding for implementation and European
+market expansion.
+ACADEMIC PROJECTS
+Machine Learning, Babson September 2024 - December 2024
+• Designed a predictive neural network model to identify potential personal loan customers, achieving 97.2% test accuracy
+on a dataset of 10,000 records, with insights visualized via neural network diagrams and confusion matrices.
+• Developed predictive CART(Classification and Regression Tree) models to estimate GoDaddy’s likeness, achieving a
+MAPE(Mean Absolute Percentage Error) of 10.67% and optimized accuracy through advanced tuning, pruning techniques.
+• Implemented k-means clustering and hierarchical clustering models for salary and benefits analysis in a public employee
+dataset and pictured results through Elbow Charts, scatterplot, and dendrogram.
+Data Analytics in Tableau, Babson September 2024 - December 2024
+• Analyzed Wayfair's e-commerce data to visualize product profitability trends and enabling actionable insights for inventory
+and pricing strategies and improving forecasting by 17%.
+• Created a real-time bike usage analytics dashboard for Blue Bike, improving operational optimization by 29%.
+SKILLS
+Product Management: Product Strategy | Road-mapping | Feature Prioritization | A/B Testing | User Journey Optimization.
+Tools and Technologies: Tableau | Power BI | ETL Pipelines | ERP NetSuite | Google Analytics | Big Data | Azure | AWS | Excel.
+Language & Database: JavaScript | Python | R | Python(Pandas) | Python(Scikit-learn) | SQL | Postgres | BigQuery | MongoDB.
+Project Management: Jira | Confluence | Scrum | Kanban |Trello | Agile | Gap Analysis | Business Document (BRD) | A/B Testing.
+Design Tools: Canva, Miro, Figma, PowerPoint
 ---`;

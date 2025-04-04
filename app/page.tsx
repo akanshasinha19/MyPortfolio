@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -34,14 +34,13 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 
-import {caseStudyContent} from "@/app/caseStudy"; // Importing case study content
+import { caseStudyContent } from "@/app/caseStudy"; // Importing case study content
 
 // Import necessary components for better markdown rendering
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { nord } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { nord } from "react-syntax-highlighter/dist/cjs/styles/prism";
 
 // Sample case study content (in real app, this would likely be fetched from a CMS or API)
-
 
 const projects = [
   {
@@ -94,7 +93,7 @@ const projects = [
       "Used k-means and hierarchical clustering for public employee salary analysis; results visualized with Elbow charts, scatterplots, and dendrograms.",
     image: "/clustering.png?height=400&width=600",
     category: "Machine Learning",
-    link: "salary-clustering",
+    link: "machine-learning-knn",
     type: "CaseStudy",
   },
   {
@@ -410,9 +409,9 @@ export default function Portfolio() {
             <TabsContent value="all" className="space-y-6">
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {projects.map((project, index) => (
-                  <ProjectCard 
-                    key={index} 
-                    project={project} 
+                  <ProjectCard
+                    key={index}
+                    project={project}
                     onOpenCaseStudy={handleOpenCaseStudy}
                   />
                 ))}
@@ -423,9 +422,9 @@ export default function Portfolio() {
                 {projects
                   .filter((p) => p.category === "E-commerce")
                   .map((project, index) => (
-                    <ProjectCard 
-                      key={index} 
-                      project={project} 
+                    <ProjectCard
+                      key={index}
+                      project={project}
                       onOpenCaseStudy={handleOpenCaseStudy}
                     />
                   ))}
@@ -440,9 +439,9 @@ export default function Portfolio() {
                       p.category === "Data Visualization",
                   )
                   .map((project, index) => (
-                    <ProjectCard 
-                      key={index} 
-                      project={project} 
+                    <ProjectCard
+                      key={index}
+                      project={project}
                       onOpenCaseStudy={handleOpenCaseStudy}
                     />
                   ))}
@@ -453,9 +452,9 @@ export default function Portfolio() {
                 {projects
                   .filter((p) => p.category === "Marketing Analytics")
                   .map((project, index) => (
-                    <ProjectCard 
-                      key={index} 
-                      project={project} 
+                    <ProjectCard
+                      key={index}
+                      project={project}
                       onOpenCaseStudy={handleOpenCaseStudy}
                     />
                   ))}
@@ -471,9 +470,9 @@ export default function Portfolio() {
                       p.category === "Natural Language Processing",
                   )
                   .map((project, index) => (
-                    <ProjectCard 
-                      key={index} 
-                      project={project} 
+                    <ProjectCard
+                      key={index}
+                      project={project}
                       onOpenCaseStudy={handleOpenCaseStudy}
                     />
                   ))}
@@ -483,6 +482,63 @@ export default function Portfolio() {
         </section>
 
         {/* Experience Section */}
+        <section id="achievements" className="py-8 md:py-12">
+          <h2 className="mb-6 md:mb-8 text-2xl font-bold tracking-tight">
+            Achievements
+          </h2>
+          <div className="space-y-6">
+            {[
+              {
+                title: "E-commerce Growth",
+                category: "Business Impact",
+                description: "Drove $2.6M in revenue through Shopify and Amazon integration",
+                year: "2023",
+                icon: "Trophy"
+              },
+              {
+                title: "Team Leadership",
+                category: "Leadership",
+                description: "Led cross-functional team of 12 members",
+                year: "2023",
+                icon: "Users"
+              },
+              {
+                title: "Performance Optimization",
+                category: "Technical",
+                description: "Improved conversion rate by 10% through A/B testing",
+                year: "2023",
+                icon: "Award"
+              }
+            ].map((item, idx) => {
+              const Icon = iconMap[item.icon as keyof typeof iconMap];
+              return (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: idx * 0.1 }}
+                >
+                  <Card>
+                    <CardHeader className="flex flex-row justify-between items-center space-y-0">
+                      <div>
+                        <CardTitle>{item.title}</CardTitle>
+                        <CardDescription className="flex gap-2 items-center text-sm mt-1">
+                          <Badge>{item.category}</Badge>
+                          <span className="text-muted-foreground">{item.year}</span>
+                        </CardDescription>
+                      </div>
+                      {Icon && <Icon className="w-6 h-6 text-muted-foreground" />}
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-sm text-gray-700">{item.description}</p>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              );
+            })}
+          </div>
+        </section>
+
         <section id="experience" className="py-8 md:py-12">
           <h2 className="mb-6 md:mb-8 text-2xl font-bold tracking-tight">
             Work Experience
@@ -572,17 +628,24 @@ export default function Portfolio() {
       </main>
 
       {/* Case Study Modal */}
-      <Dialog open={!!openCaseStudy} onOpenChange={() => openCaseStudy && handleCloseCaseStudy()}>
+      <Dialog
+        open={!!openCaseStudy}
+        onOpenChange={() => openCaseStudy && handleCloseCaseStudy()}
+      >
         <DialogContent className="max-w-full max-h-full w-full h-[100vh] p-0 m-0 overflow-hidden border-none">
           {openCaseStudy && (
             <>
               <div className="sticky top-0 z-10 flex items-center justify-between p-4 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
                 <DialogTitle className="text-xl font-bold">
-                  {projects.find(p => p.link === openCaseStudy || p.link.endsWith(openCaseStudy))?.title || 'Case Study'}
+                  {projects.find(
+                    (p) =>
+                      p.link === openCaseStudy ||
+                      p.link.endsWith(openCaseStudy),
+                  )?.title || "Case Study"}
                 </DialogTitle>
-                <Button 
-                  variant="ghost" 
-                  size="icon" 
+                <Button
+                  variant="ghost"
+                  size="icon"
                   onClick={handleCloseCaseStudy}
                   className="rounded-full"
                 >
@@ -590,32 +653,79 @@ export default function Portfolio() {
                   <span className="sr-only">Close</span>
                 </Button>
               </div>
-              
+
               <div className="h-[calc(100vh-64px)] overflow-y-auto px-4 md:px-8 lg:px-0">
                 <div className="mx-auto py-8 max-w-2xl lg:max-w-3xl">
                   <ReactMarkdown
                     components={{
-                      h1: ({ node, ...props }) => <h1 className="text-4xl font-bold mb-6 mt-10 border-b pb-2" {...props} />,
-                      h2: ({ node, ...props }) => <h2 className="text-3xl font-bold mb-4 mt-8" {...props} />,
-                      h3: ({ node, ...props }) => <h3 className="text-2xl font-semibold mb-3 mt-6" {...props} />,
-                      h4: ({ node, ...props }) => <h4 className="text-xl font-semibold mb-2 mt-4" {...props} />,
-                      h5: ({ node, ...props }) => <h5 className="text-lg font-semibold mb-1 mt-3" {...props} />,
-                      h6: ({ node, ...props }) => <h6 className="text-md font-semibold mb-1 mt-2" {...props} />,
-                      p: ({ node, ...props }) => <p className="mb-4 leading-relaxed" {...props} />,
-                      ul: ({ node, ...props }) => <ul className="list-disc pl-6 mb-4" {...props} />,
-                      ol: ({ node, ...props }) => <ol className="list-decimal pl-6 mb-4" {...props} />,
-                      li: ({ node, ...props }) => <li className="mb-1" {...props} />,
+                      h1: ({ node, ...props }) => (
+                        <h1
+                          className="text-4xl font-bold mb-6 mt-10 border-b pb-2"
+                          {...props}
+                        />
+                      ),
+                      h2: ({ node, ...props }) => (
+                        <h2
+                          className="text-3xl font-bold mb-4 mt-8"
+                          {...props}
+                        />
+                      ),
+                      h3: ({ node, ...props }) => (
+                        <h3
+                          className="text-2xl font-semibold mb-3 mt-6"
+                          {...props}
+                        />
+                      ),
+                      h4: ({ node, ...props }) => (
+                        <h4
+                          className="text-xl font-semibold mb-2 mt-4"
+                          {...props}
+                        />
+                      ),
+                      h5: ({ node, ...props }) => (
+                        <h5
+                          className="text-lg font-semibold mb-1 mt-3"
+                          {...props}
+                        />
+                      ),
+                      h6: ({ node, ...props }) => (
+                        <h6
+                          className="text-md font-semibold mb-1 mt-2"
+                          {...props}
+                        />
+                      ),
+                      p: ({ node, ...props }) => (
+                        <p className="mb-4 leading-relaxed" {...props} />
+                      ),
+                      ul: ({ node, ...props }) => (
+                        <ul className="list-disc pl-6 mb-4" {...props} />
+                      ),
+                      ol: ({ node, ...props }) => (
+                        <ol className="list-decimal pl-6 mb-4" {...props} />
+                      ),
+                      li: ({ node, ...props }) => (
+                        <li className="mb-1" {...props} />
+                      ),
                       blockquote: ({ node, ...props }) => (
-                        <blockquote className="border-l-4 border-gray-300 pl-4 italic my-4" {...props} />
+                        <blockquote
+                          className="border-l-4 border-gray-300 pl-4 italic my-4"
+                          {...props}
+                        />
                       ),
                       a: ({ node, ...props }) => (
-                        <a className="text-blue-600 hover:underline" {...props} />
+                        <a
+                          className="text-blue-600 hover:underline"
+                          {...props}
+                        />
                       ),
                       img: ({ node, ...props }) => (
-                        <img className="max-w-full h-auto my-4 rounded-md" {...props} />
+                        <img
+                          className="max-w-full h-auto my-4 rounded-md"
+                          {...props}
+                        />
                       ),
                       code({ node, inline, className, children, ...props }) {
-                        const match = /language-(\w+)/.exec(className || '');
+                        const match = /language-(\w+)/.exec(className || "");
                         return !inline && match ? (
                           <SyntaxHighlighter
                             style={nord}
@@ -624,27 +734,53 @@ export default function Portfolio() {
                             className="rounded-md my-4"
                             {...props}
                           >
-                            {String(children).replace(/\n$/, '')}
+                            {String(children).replace(/\n$/, "")}
                           </SyntaxHighlighter>
                         ) : (
-                          <code className="bg-gray-100 dark:bg-gray-800 rounded-md px-1.5 py-0.5" {...props}>
+                          <code
+                            className="bg-gray-100 dark:bg-gray-800 rounded-md px-1.5 py-0.5"
+                            {...props}
+                          >
                             {children}
                           </code>
                         );
                       },
                       table: ({ node, ...props }) => (
                         <div className="overflow-x-auto my-6">
-                          <table className="min-w-full border-collapse border border-gray-300" {...props} />
+                          <table
+                            className="min-w-full border-collapse border border-gray-300"
+                            {...props}
+                          />
                         </div>
                       ),
-                      thead: ({ node, ...props }) => <thead className="bg-gray-100 dark:bg-gray-800" {...props} />,
-                      tbody: ({ node, ...props }) => <tbody {...props} />,
-                      tr: ({ node, ...props }) => <tr className="border-b border-gray-300" {...props} />,
-                      th: ({ node, ...props }) => (
-                        <th className="border border-gray-300 px-4 py-2 text-left font-semibold" {...props} />
+                      thead: ({ node, ...props }) => (
+                        <thead
+                          className="bg-gray-100 dark:bg-gray-800"
+                          {...props}
+                        />
                       ),
-                      td: ({ node, ...props }) => <td className="border border-gray-300 px-4 py-2" {...props} />,
-                      hr: ({ node, ...props }) => <hr className="my-6 border-t border-gray-300" {...props} />
+                      tbody: ({ node, ...props }) => <tbody {...props} />,
+                      tr: ({ node, ...props }) => (
+                        <tr className="border-b border-gray-300" {...props} />
+                      ),
+                      th: ({ node, ...props }) => (
+                        <th
+                          className="border border-gray-300 px-4 py-2 text-left font-semibold"
+                          {...props}
+                        />
+                      ),
+                      td: ({ node, ...props }) => (
+                        <td
+                          className="border border-gray-300 px-4 py-2"
+                          {...props}
+                        />
+                      ),
+                      hr: ({ node, ...props }) => (
+                        <hr
+                          className="my-6 border-t border-gray-300"
+                          {...props}
+                        />
+                      ),
                     }}
                   >
                     {caseStudyContent[openCaseStudy]}
@@ -655,7 +791,7 @@ export default function Portfolio() {
           )}
         </DialogContent>
       </Dialog>
-      
+
       {/* Footer */}
       <footer className="border-t py-6">
         <div className="container max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
@@ -696,14 +832,14 @@ export default function Portfolio() {
 }
 
 // Project Card Component
-function ProjectCard({project, onOpenCaseStudy }) {
+function ProjectCard({ project, onOpenCaseStudy }) {
   const handleClick = () => {
     if (project.type === "CaseStudy") {
       // Extract project ID from the link
-      
-      const projectId = project.link.split('/').pop();
+
+      const projectId = project.link.split("/").pop();
       console.log("Project ID:", projectId);
-      if(!caseStudyContent.hasOwnProperty(projectId)) {
+      if (!caseStudyContent.hasOwnProperty(projectId)) {
         return;
       }
 

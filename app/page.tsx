@@ -486,6 +486,13 @@ export default function Portfolio() {
           <h2 className="mb-6 md:mb-8 text-2xl font-bold tracking-tight">
             Achievements
           </h2>
+          {/* Icon mapping */}
+          {(() => {
+            const iconMap = {
+              Trophy: Trophy,
+              Award: Award,
+              Users: Users
+            };
           <div className="space-y-6">
             {[
               {
@@ -535,7 +542,7 @@ export default function Portfolio() {
                   </Card>
                 </motion.div>
               );
-            })}
+            })})()}
           </div>
         </section>
 

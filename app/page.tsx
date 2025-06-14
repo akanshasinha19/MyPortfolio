@@ -42,7 +42,7 @@ import { nord } from "react-syntax-highlighter/dist/cjs/styles/prism";
 
 import ReactGA from 'react-ga';
 
-const TRACKING_ID = "G-220438183"; // OUR_TRACKING_ID
+const TRACKING_ID = "G-F1YF0T2RZ1"; // OUR_TRACKING_ID
 
 ReactGA.initialize(TRACKING_ID);
 

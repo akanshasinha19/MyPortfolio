@@ -40,6 +40,13 @@ import { caseStudyContent } from "@/app/caseStudy"; // Importing case study cont
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { nord } from "react-syntax-highlighter/dist/cjs/styles/prism";
 
+import ReactGA from 'react-ga';
+
+const TRACKING_ID = "G-220438183"; // OUR_TRACKING_ID
+
+ReactGA.initialize(TRACKING_ID);
+
+
 // Sample case study content (in real app, this would likely be fetched from a CMS or API)
 
 const projects = [
